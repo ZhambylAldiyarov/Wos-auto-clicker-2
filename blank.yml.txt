@@ -1,0 +1,272 @@
+name: Build APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.7
+      - name: Create project files
+        run: |
+          mkdir -p $(dirname settings.gradle)
+          cat > settings.gradle <<'EOF_0'
+          pluginManagement {
+              repositories { google(); mavenCentral(); gradlePluginPortal() }
+          }
+          dependencyResolutionManagement {
+              repositories { google(); mavenCentral() }
+          }
+          rootProject.name = "WosClicker"
+          include(":app")
+          EOF_0
+          mkdir -p $(dirname build.gradle)
+          cat > build.gradle <<'EOF_1'
+          plugins {
+              id 'com.android.application' version '8.5.2' apply false
+              id 'org.jetbrains.kotlin.android' version '1.9.24' apply false
+          }
+          EOF_1
+          mkdir -p $(dirname gradle.properties)
+          cat > gradle.properties <<'EOF_2'
+          org.gradle.jvmargs=-Xmx2g
+          android.useAndroidX=true
+          EOF_2
+          mkdir -p $(dirname app/build.gradle)
+          cat > app/build.gradle <<'EOF_3'
+          plugins {
+              id 'com.android.application'
+              id 'org.jetbrains.kotlin.android'
+          }
+          android {
+              namespace 'com.example.wosclicker'
+              compileSdk 34
+              defaultConfig {
+                  applicationId "com.example.wosclicker"
+                  minSdk 30
+                  targetSdk 34
+                  versionCode 1
+                  versionName "1.0"
+              }
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+              kotlinOptions { jvmTarget = '17' }
+          }
+          dependencies {
+              implementation 'androidx.appcompat:appcompat:1.6.1'
+          }
+          EOF_3
+          mkdir -p $(dirname app/src/main/AndroidManifest.xml)
+          cat > app/src/main/AndroidManifest.xml <<'EOF_4'
+          <?xml version="1.0" encoding="utf-8"?>
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+              <application android:label="@string/app_name" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                  <activity android:name=".MainActivity" android:exported="true">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN"/>
+                          <category android:name="android.intent.category.LAUNCHER"/>
+                      </intent-filter>
+                  </activity>
+                  <service android:name=".ClickService" android:exported="false"
+                      android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+                      <intent-filter>
+                          <action android:name="android.accessibilityservice.AccessibilityService"/>
+                      </intent-filter>
+                      <meta-data android:name="android.accessibilityservice"
+                          android:resource="@xml/accessibility_service_config"/>
+                  </service>
+              </application>
+          </manifest>
+          EOF_4
+          mkdir -p $(dirname app/src/main/res/values/strings.xml)
+          cat > app/src/main/res/values/strings.xml <<'EOF_5'
+          <resources>
+              <string name="app_name">WOS Clicker</string>
+          </resources>
+          EOF_5
+          mkdir -p $(dirname app/src/main/res/xml/accessibility_service_config.xml)
+          cat > app/src/main/res/xml/accessibility_service_config.xml <<'EOF_6'
+          <?xml version="1.0" encoding="utf-8"?>
+          <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+              android:accessibilityEventTypes="typeWindowStateChanged"
+              android:accessibilityFeedbackType="feedbackGeneric"
+              android:canPerformGestures="true"
+              android:canTakeScreenshot="true"
+              android:description="@string/app_name"
+              android:notificationTimeout="100" />
+          EOF_6
+          mkdir -p $(dirname app/src/main/java/com/example/wosclicker/MainActivity.kt)
+          cat > app/src/main/java/com/example/wosclicker/MainActivity.kt <<'EOF_7'
+          package com.example.wosclicker
+
+          import android.content.Intent
+          import android.provider.Settings
+          import android.os.Bundle
+          import android.widget.*
+          import androidx.appcompat.app.AppCompatActivity
+
+          class MainActivity : AppCompatActivity() {
+              override fun onCreate(s: Bundle?) {
+                  super.onCreate(s)
+                  val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(48, 96, 48, 48) }
+                  root.addView(TextView(this).apply { text = "Какой параметр улучшать?"; textSize = 20f })
+
+                  val names = listOf("Смертоносность пехоты", "Здоровье пехоты", "Смертоносность копейщиков",
+                      "Здоровье копейщиков", "Смертоносность стрелков", "Здоровье стрелков")
+                  val group = RadioGroup(this)
+                  names.forEachIndexed { i, n ->
+                      group.addView(RadioButton(this).apply { text = n; id = i })
+                  }
+                  group.check(ClickService.row)
+                  group.setOnCheckedChangeListener { _, id -> ClickService.row = id }
+                  root.addView(group)
+
+                  root.addView(TextView(this).apply { text = "Макс. попыток:" })
+                  val maxEdit = EditText(this).apply { setText(ClickService.maxTries.toString()) }
+                  root.addView(maxEdit)
+                  root.addView(TextView(this).apply { text = "Пауза после нажатия, мс:" })
+                  val delayEdit = EditText(this).apply { setText(ClickService.delayMs.toString()) }
+                  root.addView(delayEdit)
+
+                  root.addView(Button(this).apply {
+                      text = "1. Включить службу доступности"
+                      setOnClickListener { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
+                  })
+                  root.addView(Button(this).apply {
+                      text = "2. Сохранить и показать кнопку"
+                      setOnClickListener {
+                          ClickService.maxTries = maxEdit.text.toString().toIntOrNull() ?: 300
+                          ClickService.delayMs = delayEdit.text.toString().toLongOrNull() ?: 1300L
+                          ClickService.instance?.showOverlay()
+                          Toast.makeText(context, "Открой игру, экран улучшения, нажми кнопку START", Toast.LENGTH_LONG).show()
+                      }
+                  })
+                  setContentView(root)
+              }
+          }
+          EOF_7
+          mkdir -p $(dirname app/src/main/java/com/example/wosclicker/ClickService.kt)
+          cat > app/src/main/java/com/example/wosclicker/ClickService.kt <<'EOF_8'
+          package com.example.wosclicker
+
+          import android.accessibilityservice.AccessibilityService
+          import android.accessibilityservice.GestureDescription
+          import android.graphics.Bitmap
+          import android.graphics.Color
+          import android.graphics.Path
+          import android.graphics.PixelFormat
+          import android.os.Handler
+          import android.os.Looper
+          import android.view.Display
+          import android.view.Gravity
+          import android.view.WindowManager
+          import android.view.accessibility.AccessibilityEvent
+          import android.widget.Button
+
+          class ClickService : AccessibilityService() {
+
+              companion object {
+                  var instance: ClickService? = null
+                  var row = 4              // 0..5, по умолчанию «Смертоносность стрелков»
+                  var maxTries = 300
+                  var delayMs = 1300L
+                  // Опорные координаты со скриншота 1189x2576
+                  private const val REF_W = 1189f
+                  private const val REF_H = 2576f
+                  private val ROW_Y = floatArrayOf(1228f, 1360f, 1488f, 1618f, 1748f, 1878f)
+                  private const val ARROW_X = 1057f
+                  private val BTN_RETRY = floatArrayOf(352f, 2272f)
+                  private val BTN_REPLACE = floatArrayOf(836f, 2272f)
+              }
+
+              private val handler = Handler(Looper.getMainLooper())
+              private var running = false
+              private var tries = 0
+              private var btn: Button? = null
+
+              override fun onServiceConnected() { instance = this; showOverlay() }
+              override fun onAccessibilityEvent(e: AccessibilityEvent?) {}
+              override fun onInterrupt() { running = false }
+              override fun onDestroy() { instance = null; running = false; super.onDestroy() }
+
+              fun showOverlay() {
+                  if (btn != null) return
+                  val wm = getSystemService(WINDOW_SERVICE) as WindowManager
+                  val b = Button(this).apply {
+                      text = "START"
+                      setOnClickListener {
+                          running = !running
+                          if (running) { tries = 0; step() } else text = "START"
+                      }
+                  }
+                  val lp = WindowManager.LayoutParams(
+                      WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT,
+                      WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
+                      WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT
+                  ).apply { gravity = Gravity.TOP or Gravity.START; x = 20; y = 250 }
+                  wm.addView(b, lp)
+                  btn = b
+              }
+
+              private fun stop(msg: String) { running = false; btn?.text = msg }
+
+              private fun step() {
+                  if (!running) return
+                  if (tries >= maxTries) { stop("DONE"); return }
+                  btn?.text = "STOP ($tries)"
+                  takeScreenshot(Display.DEFAULT_DISPLAY, mainExecutor, object : TakeScreenshotCallback {
+                      override fun onSuccess(r: ScreenshotResult) {
+                          val hw = r.hardwareBuffer
+                          val bmp = Bitmap.wrapHardwareBuffer(hw, r.colorSpace)!!.copy(Bitmap.Config.ARGB_8888, false)
+                          hw.close()
+                          decide(bmp)
+                      }
+                      override fun onFailure(code: Int) { handler.postDelayed({ step() }, 1500) }
+                  })
+              }
+
+              private fun decide(bmp: Bitmap) {
+                  val w = bmp.width; val h = bmp.height
+                  val cx = (ARROW_X / REF_W * w).toInt()
+                  val cy = (ROW_Y[row] / REF_H * h).toInt()
+                  val half = (0.03f * w).toInt()
+                  var green = 0; var red = 0
+                  for (x in (cx - half).coerceAtLeast(0) until (cx + half).coerceAtMost(w))
+                      for (y in (cy - half).coerceAtLeast(0) until (cy + half).coerceAtMost(h)) {
+                          val p = bmp.getPixel(x, y)
+                          val r = Color.red(p); val g = Color.green(p); val b = Color.blue(p)
+                          if (g > 150 && r < 130 && b < 130) green++
+                          else if (r > 170 && g < 110 && b < 110) red++
+                      }
+                  bmp.recycle()
+
+                  val target = if (green > 40 && green > red) BTN_REPLACE else BTN_RETRY
+                  tap(target[0] / REF_W * w, target[1] / REF_H * h)
+                  tries++
+                  handler.postDelayed({ step() }, delayMs)
+              }
+
+              private fun tap(x: Float, y: Float) {
+                  val path = Path().apply { moveTo(x, y) }
+                  val g = GestureDescription.Builder()
+                      .addStroke(GestureDescription.StrokeDescription(path, 0, 60)).build()
+                  dispatchGesture(g, null, null)
+              }
+          }
+          EOF_8
+      - run: gradle assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wos-clicker-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
