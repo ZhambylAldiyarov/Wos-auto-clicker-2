@@ -73,7 +73,11 @@ jobs:
           cat > app/src/main/AndroidManifest.xml <<'EOF_4'
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-              <application android:label="@string/app_name" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+              <application
+                  android:icon="@drawable/ic_launcher"
+                  android:roundIcon="@drawable/ic_launcher"
+                  android:label="@string/app_name"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
                   <activity android:name=".MainActivity" android:exported="true">
                       <intent-filter>
                           <action android:name="android.intent.action.MAIN"/>
@@ -108,80 +112,211 @@ jobs:
               android:description="@string/app_name"
               android:notificationTimeout="100" />
           EOF_6
+          mkdir -p $(dirname app/src/main/res/drawable/ic_launcher.xml)
+          cat > app/src/main/res/drawable/ic_launcher.xml <<'EOF_7'
+          <?xml version="1.0" encoding="utf-8"?>
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="96dp"
+              android:height="96dp"
+              android:viewportWidth="96"
+              android:viewportHeight="96">
+              <path
+                  android:fillColor="#0F2A4D"
+                  android:pathData="M48,48m-48,0a48,48 0,1 1,96 0a48,48 0,1 1,-96 0" />
+              <path
+                  android:strokeColor="#5AB8FF"
+                  android:strokeWidth="5"
+                  android:strokeLineCap="round"
+                  android:pathData="M48,18L48,78M22,33L74,63M22,63L74,33" />
+              <path
+                  android:fillColor="#FFFFFF"
+                  android:pathData="M48,48m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+          </vector>
+          EOF_7
           mkdir -p $(dirname app/src/main/java/com/example/wosclicker/MainActivity.kt)
-          cat > app/src/main/java/com/example/wosclicker/MainActivity.kt <<'EOF_7'
+          cat > app/src/main/java/com/example/wosclicker/MainActivity.kt <<'EOF_8'
           package com.example.wosclicker
 
           import android.content.Intent
+          import android.graphics.Color
+          import android.graphics.Typeface
+          import android.graphics.drawable.GradientDrawable
           import android.os.Bundle
           import android.provider.Settings
-          import android.widget.Button
+          import android.text.InputType
+          import android.view.Gravity
+          import android.view.View
+          import android.view.ViewGroup
           import android.widget.EditText
           import android.widget.LinearLayout
-          import android.widget.RadioButton
-          import android.widget.RadioGroup
+          import android.widget.ScrollView
           import android.widget.TextView
           import android.widget.Toast
           import androidx.appcompat.app.AppCompatActivity
 
           class MainActivity : AppCompatActivity() {
 
+              private val cAccent = Color.parseColor("#5AB8FF")
+              private val cDark = Color.parseColor("#0A1628")
+              private val cMuted = Color.parseColor("#9FB7D6")
+              private val cGreen = Color.parseColor("#3DDC84")
+              private val cRed = Color.parseColor("#FF5C5C")
+
+              private val names = listOf(
+                  "Смертоносность пехоты", "Здоровье пехоты",
+                  "Смертоносность копейщиков", "Здоровье копейщиков",
+                  "Смертоносность стрелков", "Здоровье стрелков"
+              )
+
+              private lateinit var statusDot: View
+              private lateinit var statusText: TextView
+              private lateinit var enableBtn: TextView
+              private lateinit var maxEdit: EditText
+              private lateinit var delayEdit: EditText
+              private val rowViews = ArrayList<TextView>()
+
+              private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
+
+              private fun rounded(fill: Int, radiusDp: Int, strokeColor: Int = 0, strokeDp: Int = 0): GradientDrawable {
+                  val d = GradientDrawable()
+                  d.shape = GradientDrawable.RECTANGLE
+                  d.cornerRadius = dp(radiusDp).toFloat()
+                  d.setColor(fill)
+                  if (strokeDp > 0) d.setStroke(dp(strokeDp), strokeColor)
+                  return d
+              }
+
+              private fun matchWrap(topDp: Int): LinearLayout.LayoutParams {
+                  val p = LinearLayout.LayoutParams(
+                      ViewGroup.LayoutParams.MATCH_PARENT,
+                      ViewGroup.LayoutParams.WRAP_CONTENT
+                  )
+                  p.topMargin = dp(topDp)
+                  return p
+              }
+
+              private fun text(t: String, size: Float, color: Int, bold: Boolean): TextView {
+                  val v = TextView(this)
+                  v.text = t
+                  v.textSize = size
+                  v.setTextColor(color)
+                  if (bold) v.setTypeface(null, Typeface.BOLD)
+                  return v
+              }
+
+              private fun card(): LinearLayout {
+                  val c = LinearLayout(this)
+                  c.orientation = LinearLayout.VERTICAL
+                  c.setPadding(dp(18), dp(16), dp(18), dp(18))
+                  c.background = rounded(Color.parseColor("#1AFFFFFF"), 20, Color.parseColor("#33FFFFFF"), 1)
+                  c.layoutParams = matchWrap(16)
+                  return c
+              }
+
+              private fun button(t: String, fill: Int, textColor: Int): TextView {
+                  val v = text(t, 16f, textColor, true)
+                  v.gravity = Gravity.CENTER
+                  v.setPadding(dp(16), dp(14), dp(16), dp(14))
+                  v.background = rounded(fill, 16, 0, 0)
+                  v.layoutParams = matchWrap(14)
+                  return v
+              }
+
+              private fun input(value: String): EditText {
+                  val e = EditText(this)
+                  e.setText(value)
+                  e.setTextColor(Color.WHITE)
+                  e.textSize = 16f
+                  e.inputType = InputType.TYPE_CLASS_NUMBER
+                  e.setPadding(dp(14), dp(10), dp(14), dp(10))
+                  e.background = rounded(Color.parseColor("#33000000"), 12, Color.parseColor("#33FFFFFF"), 1)
+                  e.layoutParams = matchWrap(6)
+                  return e
+              }
+
               override fun onCreate(savedInstanceState: Bundle?) {
                   super.onCreate(savedInstanceState)
+                  ClickService.loadPrefs(this)
+
+                  window.statusBarColor = Color.parseColor("#0A1628")
+                  window.navigationBarColor = Color.parseColor("#1B4B82")
+
+                  val scroll = ScrollView(this)
+                  scroll.isFillViewport = true
+                  scroll.background = GradientDrawable(
+                      GradientDrawable.Orientation.TOP_BOTTOM,
+                      intArrayOf(Color.parseColor("#0A1628"), Color.parseColor("#1B4B82"))
+                  )
 
                   val root = LinearLayout(this)
                   root.orientation = LinearLayout.VERTICAL
-                  root.setPadding(48, 96, 48, 48)
+                  root.setPadding(dp(20), dp(48), dp(20), dp(32))
+                  scroll.addView(root)
 
-                  val title = TextView(this)
-                  title.text = "Какой параметр улучшать?"
-                  title.textSize = 20f
-                  root.addView(title)
+                  // Заголовок
+                  root.addView(text("❄  WOS Clicker", 30f, Color.WHITE, true))
+                  val sub = text("Автоулучшение параметров питомцев", 14f, cMuted, false)
+                  sub.layoutParams = matchWrap(4)
+                  root.addView(sub)
 
-                  val names = listOf(
-                      "Смертоносность пехоты", "Здоровье пехоты",
-                      "Смертоносность копейщиков", "Здоровье копейщиков",
-                      "Смертоносность стрелков", "Здоровье стрелков"
-                  )
-                  val group = RadioGroup(this)
-                  for (i in names.indices) {
-                      val rb = RadioButton(this)
-                      rb.text = names[i]
-                      rb.id = i + 1
-                      group.addView(rb)
-                  }
-                  group.check(ClickService.row + 1)
-                  group.setOnCheckedChangeListener { _, checkedId ->
-                      ClickService.row = checkedId - 1
-                  }
-                  root.addView(group)
-
-                  val l1 = TextView(this)
-                  l1.text = "Макс. попыток:"
-                  root.addView(l1)
-                  val maxEdit = EditText(this)
-                  maxEdit.setText(ClickService.maxTries.toString())
-                  root.addView(maxEdit)
-
-                  val l2 = TextView(this)
-                  l2.text = "Пауза после нажатия, мс:"
-                  root.addView(l2)
-                  val delayEdit = EditText(this)
-                  delayEdit.setText(ClickService.delayMs.toString())
-                  root.addView(delayEdit)
-
-                  val b1 = Button(this)
-                  b1.text = "1. Включить службу доступности"
-                  b1.setOnClickListener {
+                  // Статус службы
+                  val statusCard = card()
+                  val statusRow = LinearLayout(this)
+                  statusRow.orientation = LinearLayout.HORIZONTAL
+                  statusRow.gravity = Gravity.CENTER_VERTICAL
+                  statusDot = View(this)
+                  val dotLp = LinearLayout.LayoutParams(dp(12), dp(12))
+                  dotLp.rightMargin = dp(10)
+                  statusDot.layoutParams = dotLp
+                  statusText = text("", 16f, Color.WHITE, true)
+                  statusRow.addView(statusDot)
+                  statusRow.addView(statusText)
+                  statusCard.addView(statusRow)
+                  enableBtn = button("Включить службу доступности", cAccent, cDark)
+                  enableBtn.setOnClickListener {
                       startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
                   }
-                  root.addView(b1)
+                  statusCard.addView(enableBtn)
+                  root.addView(statusCard)
 
-                  val b2 = Button(this)
-                  b2.text = "2. Сохранить и показать кнопку"
-                  b2.setOnClickListener {
-                      ClickService.maxTries = maxEdit.text.toString().toIntOrNull() ?: 300
-                      ClickService.delayMs = delayEdit.text.toString().toLongOrNull() ?: 1300L
+                  // Выбор параметра
+                  val paramCard = card()
+                  paramCard.addView(text("ПАРАМЕТР ДЛЯ УЛУЧШЕНИЯ", 12f, cMuted, true))
+                  for (i in names.indices) {
+                      val row = text(names[i], 16f, Color.WHITE, false)
+                      row.setPadding(dp(14), dp(12), dp(14), dp(12))
+                      row.layoutParams = matchWrap(8)
+                      row.setOnClickListener {
+                          ClickService.row = i
+                          ClickService.savePrefs(this)
+                          refreshRows()
+                      }
+                      rowViews.add(row)
+                      paramCard.addView(row)
+                  }
+                  root.addView(paramCard)
+                  refreshRows()
+
+                  // Настройки
+                  val setCard = card()
+                  setCard.addView(text("НАСТРОЙКИ", 12f, cMuted, true))
+                  val l1 = text("Максимум попыток", 14f, Color.WHITE, false)
+                  l1.layoutParams = matchWrap(10)
+                  setCard.addView(l1)
+                  maxEdit = input(ClickService.maxTries.toString())
+                  setCard.addView(maxEdit)
+                  val l2 = text("Пауза после нажатия, мс", 14f, Color.WHITE, false)
+                  l2.layoutParams = matchWrap(12)
+                  setCard.addView(l2)
+                  delayEdit = input(ClickService.delayMs.toString())
+                  setCard.addView(delayEdit)
+                  root.addView(setCard)
+
+                  // Главная кнопка
+                  val show = button("▶  Показать кнопку START", cGreen, cDark)
+                  show.layoutParams = matchWrap(20)
+                  show.setOnClickListener {
+                      saveSettings()
                       val svc = ClickService.instance
                       if (svc == null) {
                           Toast.makeText(this, "Сначала включите службу доступности", Toast.LENGTH_LONG).show()
@@ -190,29 +325,86 @@ jobs:
                           Toast.makeText(this, "Откройте игру и нажмите START", Toast.LENGTH_LONG).show()
                       }
                   }
-                  root.addView(b2)
+                  root.addView(show)
 
-                  setContentView(root)
+                  // Подсказка
+                  val hint = text(
+                      "1. Включите службу доступности\n" +
+                      "2. Откройте игру на экране улучшения питомца\n" +
+                      "3. Нажмите START. Кнопку можно перетащить пальцем",
+                      13f, cMuted, false
+                  )
+                  hint.setLineSpacing(0f, 1.2f)
+                  hint.layoutParams = matchWrap(18)
+                  root.addView(hint)
+
+                  setContentView(scroll)
+              }
+
+              private fun refreshRows() {
+                  for (i in rowViews.indices) {
+                      val selected = i == ClickService.row
+                      val v = rowViews[i]
+                      v.text = (if (selected) "●  " else "○  ") + names[i]
+                      v.setTextColor(if (selected) cDark else Color.WHITE)
+                      v.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+                      v.background = if (selected) {
+                          rounded(cAccent, 12, 0, 0)
+                      } else {
+                          rounded(Color.parseColor("#14FFFFFF"), 12, Color.parseColor("#26FFFFFF"), 1)
+                      }
+                  }
+              }
+
+              private fun refreshStatus() {
+                  val on = ClickService.instance != null
+                  val dot = GradientDrawable()
+                  dot.shape = GradientDrawable.OVAL
+                  dot.setColor(if (on) cGreen else cRed)
+                  statusDot.background = dot
+                  statusText.text = if (on) "Служба включена" else "Служба выключена"
+                  enableBtn.visibility = if (on) View.GONE else View.VISIBLE
+              }
+
+              private fun saveSettings() {
+                  ClickService.maxTries = (maxEdit.text.toString().toIntOrNull() ?: 300).coerceAtLeast(1)
+                  ClickService.delayMs = (delayEdit.text.toString().toLongOrNull() ?: 1300L).coerceAtLeast(300L)
+                  ClickService.savePrefs(this)
+              }
+
+              override fun onResume() {
+                  super.onResume()
+                  refreshStatus()
+              }
+
+              override fun onPause() {
+                  super.onPause()
+                  saveSettings()
               }
           }
-          EOF_7
+          EOF_8
           mkdir -p $(dirname app/src/main/java/com/example/wosclicker/ClickService.kt)
-          cat > app/src/main/java/com/example/wosclicker/ClickService.kt <<'EOF_8'
+          cat > app/src/main/java/com/example/wosclicker/ClickService.kt <<'EOF_9'
           package com.example.wosclicker
 
           import android.accessibilityservice.AccessibilityService
           import android.accessibilityservice.GestureDescription
+          import android.content.Context
           import android.graphics.Bitmap
           import android.graphics.Color
           import android.graphics.Path
           import android.graphics.PixelFormat
+          import android.graphics.Typeface
+          import android.graphics.drawable.GradientDrawable
           import android.os.Handler
           import android.os.Looper
           import android.view.Display
           import android.view.Gravity
+          import android.view.MotionEvent
           import android.view.WindowManager
           import android.view.accessibility.AccessibilityEvent
-          import android.widget.Button
+          import android.widget.TextView
+          import kotlin.math.abs
 
           class ClickService : AccessibilityService() {
 
@@ -229,16 +421,37 @@ jobs:
                   const val ARROW_X = 1057f
                   val BTN_RETRY = floatArrayOf(352f, 2272f)
                   val BTN_REPLACE = floatArrayOf(836f, 2272f)
+                  val BTN_COMPLETE = floatArrayOf(595f, 2285f)
+                  // Точка внутри большой кнопки "Соверш." (в другом режиме тут пустой промежуток между кнопками)
+                  val COMPLETE_CHECK = floatArrayOf(595f, 2235f)
+
+                  fun loadPrefs(ctx: Context) {
+                      val sp = ctx.getSharedPreferences("wos", Context.MODE_PRIVATE)
+                      row = sp.getInt("row", row).coerceIn(0, 5)
+                      maxTries = sp.getInt("max", maxTries)
+                      delayMs = sp.getLong("delay", delayMs)
+                  }
+
+                  fun savePrefs(ctx: Context) {
+                      ctx.getSharedPreferences("wos", Context.MODE_PRIVATE).edit()
+                          .putInt("row", row)
+                          .putInt("max", maxTries)
+                          .putLong("delay", delayMs)
+                          .apply()
+                  }
               }
 
               private val handler = Handler(Looper.getMainLooper())
               private var running = false
               private var tries = 0
-              private var btn: Button? = null
+              private var btn: TextView? = null
+
+              private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
 
               override fun onServiceConnected() {
                   super.onServiceConnected()
                   instance = this
+                  loadPrefs(this)
                   showOverlay()
               }
 
@@ -246,6 +459,7 @@ jobs:
 
               override fun onInterrupt() {
                   running = false
+                  setLabel("▶ START")
               }
 
               override fun onDestroy() {
@@ -254,20 +468,43 @@ jobs:
                   super.onDestroy()
               }
 
+              private fun pill(color: Int): GradientDrawable {
+                  val d = GradientDrawable()
+                  d.shape = GradientDrawable.RECTANGLE
+                  d.cornerRadius = dp(24).toFloat()
+                  d.setColor(color)
+                  d.setStroke(dp(2), Color.parseColor("#99FFFFFF"))
+                  return d
+              }
+
+              private fun setLabel(t: String) {
+                  val b = btn ?: return
+                  b.text = t
+                  b.background = pill(Color.parseColor(if (running) "#E5484D" else "#2B7FFF"))
+              }
+
+              private fun toggle() {
+                  running = !running
+                  if (running) {
+                      tries = 0
+                      setLabel("■ STOP")
+                      step()
+                  } else {
+                      setLabel("▶ START")
+                  }
+              }
+
               fun showOverlay() {
                   if (btn != null) return
-                  val wm = getSystemService(WINDOW_SERVICE) as WindowManager
-                  val b = Button(this)
-                  b.text = "START"
-                  b.setOnClickListener {
-                      running = !running
-                      if (running) {
-                          tries = 0
-                          step()
-                      } else {
-                          b.text = "START"
-                      }
-                  }
+                  val manager = getSystemService(WINDOW_SERVICE) as WindowManager
+                  val b = TextView(this)
+                  b.textSize = 14f
+                  b.setTextColor(Color.WHITE)
+                  b.setTypeface(null, Typeface.BOLD)
+                  b.gravity = Gravity.CENTER
+                  b.setPadding(dp(18), dp(10), dp(18), dp(10))
+                  b.elevation = dp(6).toFloat()
+
                   val lp = WindowManager.LayoutParams(
                       WindowManager.LayoutParams.WRAP_CONTENT,
                       WindowManager.LayoutParams.WRAP_CONTENT,
@@ -276,17 +513,53 @@ jobs:
                       PixelFormat.TRANSLUCENT
                   )
                   lp.gravity = Gravity.TOP or Gravity.START
-                  lp.x = 20
-                  lp.y = 250
-                  wm.addView(b, lp)
+                  lp.x = dp(12)
+                  lp.y = dp(120)
+
+                  var startX = 0
+                  var startY = 0
+                  var touchX = 0f
+                  var touchY = 0f
+                  var moved = false
+                  b.setOnTouchListener { v, e ->
+                      when (e.action) {
+                          MotionEvent.ACTION_DOWN -> {
+                              startX = lp.x
+                              startY = lp.y
+                              touchX = e.rawX
+                              touchY = e.rawY
+                              moved = false
+                              true
+                          }
+                          MotionEvent.ACTION_MOVE -> {
+                              val dx = (e.rawX - touchX).toInt()
+                              val dy = (e.rawY - touchY).toInt()
+                              if (abs(dx) > dp(6) || abs(dy) > dp(6)) moved = true
+                              if (moved) {
+                                  lp.x = startX + dx
+                                  lp.y = startY + dy
+                                  manager.updateViewLayout(v, lp)
+                              }
+                              true
+                          }
+                          MotionEvent.ACTION_UP -> {
+                              if (!moved) toggle()
+                              true
+                          }
+                          else -> false
+                      }
+                  }
+
+                  manager.addView(b, lp)
                   btn = b
+                  setLabel("▶ START")
               }
 
               private fun step() {
                   if (!running) return
                   if (tries >= maxTries) {
                       running = false
-                      btn?.text = "DONE"
+                      setLabel("✔ DONE")
                       return
                   }
                   takeScreenshot(
@@ -314,9 +587,35 @@ jobs:
                   )
               }
 
+              private fun isBrightBlue(bmp: Bitmap, refX: Float, refY: Float): Boolean {
+                  val cx = (refX / REF_W * bmp.width).toInt()
+                  val cy = (refY / REF_H * bmp.height).toInt()
+                  val half = (0.008f * bmp.width).toInt()
+                  var hit = 0
+                  var total = 0
+                  for (x in maxOf(cx - half, 0) until minOf(cx + half, bmp.width)) {
+                      for (y in maxOf(cy - half, 0) until minOf(cy + half, bmp.height)) {
+                          val p = bmp.getPixel(x, y)
+                          total++
+                          if (Color.blue(p) > 220 && Color.green(p) > 130 && Color.red(p) < 150) hit++
+                      }
+                  }
+                  return total > 0 && hit * 100 / total >= 70
+              }
+
               private fun decide(bmp: Bitmap) {
                   val w = bmp.width
                   val h = bmp.height
+
+                  // Экран с большой кнопкой "Соверш." -> нажать её, чтобы начать новую попытку
+                  if (isBrightBlue(bmp, COMPLETE_CHECK[0], COMPLETE_CHECK[1])) {
+                      bmp.recycle()
+                      setLabel("■ $tries  СОВЕРШ.")
+                      tap(BTN_COMPLETE[0] / REF_W * w, BTN_COMPLETE[1] / REF_H * h)
+                      handler.postDelayed({ step() }, delayMs)
+                      return
+                  }
+
                   val cx = (ARROW_X / REF_W * w).toInt()
                   val cy = (ROW_Y[row] / REF_H * h).toInt()
                   val half = (0.03f * w).toInt()
@@ -340,7 +639,7 @@ jobs:
 
                   val replace = green > 40 && green > red
                   val target = if (replace) BTN_REPLACE else BTN_RETRY
-                  btn?.text = "STOP ${tries + 1}  G$green R$red"
+                  setLabel("■ ${tries + 1}  G$green R$red")
                   tap(target[0] / REF_W * w, target[1] / REF_H * h)
                   tries++
                   handler.postDelayed({ step() }, delayMs)
@@ -354,7 +653,7 @@ jobs:
                   dispatchGesture(gesture, null, null)
               }
           }
-          EOF_8
+          EOF_9
       - name: Build
         run: gradle assembleDebug --no-daemon --stacktrace
       - uses: actions/upload-artifact@v4
