@@ -757,6 +757,8 @@ jobs:
                   val BTN_COMPLETE = floatArrayOf(595f, 2285f)
                   // Точка внутри большой кнопки "Соверш." (в другом режиме тут пустой промежуток между кнопками)
                   val COMPLETE_CHECK = floatArrayOf(595f, 2235f)
+                  // Область с приростом общей мощности сверху ("+3 000" и стрелка): левый, верхний, правый, нижний
+                  val POWER_BOX = floatArrayOf(500f, 1060f, 960f, 1130f)
 
                   fun loadPrefs(ctx: Context) {
                       val sp = ctx.getSharedPreferences("wos", Context.MODE_PRIVATE)
@@ -936,6 +938,21 @@ jobs:
                   return total > 0 && hit * 100 / total >= 70
               }
 
+              private fun countGreen(bmp: Bitmap, box: FloatArray): Int {
+                  val x0 = maxOf((box[0] / REF_W * bmp.width).toInt(), 0)
+                  val y0 = maxOf((box[1] / REF_H * bmp.height).toInt(), 0)
+                  val x1 = minOf((box[2] / REF_W * bmp.width).toInt(), bmp.width)
+                  val y1 = minOf((box[3] / REF_H * bmp.height).toInt(), bmp.height)
+                  var n = 0
+                  for (x in x0 until x1) {
+                      for (y in y0 until y1) {
+                          val p = bmp.getPixel(x, y)
+                          if (Color.green(p) > 150 && Color.red(p) < 130 && Color.blue(p) < 130) n++
+                      }
+                  }
+                  return n
+              }
+
               private fun decide(bmp: Bitmap) {
                   val w = bmp.width
                   val h = bmp.height
@@ -968,11 +985,17 @@ jobs:
                           else if (r > 170 && g < 110 && bl < 110) red++
                       }
                   }
+                  val powerGreen = countGreen(bmp, POWER_BOX)
                   bmp.recycle()
 
-                  val replace = green > 40 && green > red
+                  val scale = (w / REF_W) * (w / REF_W)
+                  val powerUp = powerGreen >= maxOf((60 * scale).toInt(), 15)
+                  val arrowGreen = green > 40 && green > red
+                  val noArrow = green < 25 && red < 25
+                  // Заменить: зелёная стрелка у параметра, либо стрелки нет, но общая мощность выросла
+                  val replace = arrowGreen || (noArrow && powerUp)
                   val target = if (replace) BTN_REPLACE else BTN_RETRY
-                  setLabel("■ ${tries + 1}  G$green R$red")
+                  setLabel("■ ${tries + 1}  G$green R$red P$powerGreen")
                   tap(target[0] / REF_W * w, target[1] / REF_H * h)
                   tries++
                   handler.postDelayed({ step() }, delayMs)
