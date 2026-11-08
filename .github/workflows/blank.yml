@@ -74,6 +74,7 @@ jobs:
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <application
+                  android:supportsRtl="true"
                   android:icon="@drawable/ic_launcher"
                   android:roundIcon="@drawable/ic_launcher"
                   android:label="@string/app_name"
@@ -133,10 +134,182 @@ jobs:
                   android:pathData="M48,48m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
           </vector>
           EOF_7
-          mkdir -p $(dirname app/src/main/java/com/example/wosclicker/MainActivity.kt)
-          cat > app/src/main/java/com/example/wosclicker/MainActivity.kt <<'EOF_8'
+          mkdir -p $(dirname app/src/main/java/com/example/wosclicker/L.kt)
+          cat > app/src/main/java/com/example/wosclicker/L.kt <<'EOF_8'
           package com.example.wosclicker
 
+          object L {
+              var lang: String = "en"
+              val codes = listOf("ru", "en", "ko", "zh", "ar")
+              val langNames = listOf("Русский", "English", "한국어", "中文", "العربية")
+
+              private val ru = mapOf(
+                  "sub" to "Автоулучшение параметров питомцев",
+                  "tab_home" to "Главная",
+                  "tab_settings" to "Настройки",
+                  "tab_support" to "Поддержка",
+                  "svc_on" to "Служба включена",
+                  "svc_off" to "Служба выключена",
+                  "enable" to "Включить службу доступности",
+                  "param_title" to "ПАРАМЕТР ДЛЯ УЛУЧШЕНИЯ",
+                  "stat0" to "Смертоносность пехоты",
+                  "stat1" to "Здоровье пехоты",
+                  "stat2" to "Смертоносность копейщиков",
+                  "stat3" to "Здоровье копейщиков",
+                  "stat4" to "Смертоносность стрелков",
+                  "stat5" to "Здоровье стрелков",
+                  "show" to "▶  Показать кнопку START",
+                  "hint" to "1. Включите службу доступности\n2. Откройте игру на экране улучшения питомца\n3. Нажмите START. Кнопку можно перетащить пальцем",
+                  "need_service" to "Сначала включите службу доступности",
+                  "started" to "Откройте игру и нажмите START",
+                  "settings_title" to "НАСТРОЙКИ",
+                  "lang_title" to "ЯЗЫК",
+                  "max_tries" to "Максимум попыток",
+                  "delay" to "Пауза после нажатия, мс",
+                  "support_title" to "Поддержать автора",
+                  "support_text" to "Если приложение помогло вам, вы можете поддержать разработку переводом на карту. Это добровольно и ничего не открывает.",
+                  "card_label" to "НОМЕР КАРТЫ",
+                  "copy" to "Скопировать номер",
+                  "copied" to "Номер скопирован",
+                  "thanks" to "Спасибо за поддержку! ❄"
+              )
+
+              private val en = mapOf(
+                  "sub" to "Auto-upgrade for pet stats",
+                  "tab_home" to "Home",
+                  "tab_settings" to "Settings",
+                  "tab_support" to "Support",
+                  "svc_on" to "Service enabled",
+                  "svc_off" to "Service disabled",
+                  "enable" to "Enable accessibility service",
+                  "param_title" to "STAT TO UPGRADE",
+                  "stat0" to "Infantry Lethality",
+                  "stat1" to "Infantry Health",
+                  "stat2" to "Lancer Lethality",
+                  "stat3" to "Lancer Health",
+                  "stat4" to "Marksman Lethality",
+                  "stat5" to "Marksman Health",
+                  "show" to "▶  Show START button",
+                  "hint" to "1. Enable the accessibility service\n2. Open the game on the pet upgrade screen\n3. Tap START. You can drag the button with your finger",
+                  "need_service" to "Enable the accessibility service first",
+                  "started" to "Open the game and tap START",
+                  "settings_title" to "SETTINGS",
+                  "lang_title" to "LANGUAGE",
+                  "max_tries" to "Max attempts",
+                  "delay" to "Delay after tap, ms",
+                  "support_title" to "Support the author",
+                  "support_text" to "If this app helped you, you can support development with a card transfer. It is voluntary and unlocks nothing.",
+                  "card_label" to "CARD NUMBER",
+                  "copy" to "Copy number",
+                  "copied" to "Number copied",
+                  "thanks" to "Thank you for your support! ❄"
+              )
+
+              private val ko = mapOf(
+                  "sub" to "펫 능력치 자동 강화",
+                  "tab_home" to "홈",
+                  "tab_settings" to "설정",
+                  "tab_support" to "후원",
+                  "svc_on" to "서비스 켜짐",
+                  "svc_off" to "서비스 꺼짐",
+                  "enable" to "접근성 서비스 켜기",
+                  "param_title" to "강화할 능력치",
+                  "stat0" to "보병 살상력",
+                  "stat1" to "보병 체력",
+                  "stat2" to "창병 살상력",
+                  "stat3" to "창병 체력",
+                  "stat4" to "궁병 살상력",
+                  "stat5" to "궁병 체력",
+                  "show" to "▶  START 버튼 표시",
+                  "hint" to "1. 접근성 서비스를 켜세요\n2. 게임에서 펫 강화 화면을 여세요\n3. START를 누르세요. 버튼은 손가락으로 옮길 수 있습니다",
+                  "need_service" to "먼저 접근성 서비스를 켜세요",
+                  "started" to "게임을 열고 START를 누르세요",
+                  "settings_title" to "설정",
+                  "lang_title" to "언어",
+                  "max_tries" to "최대 시도 횟수",
+                  "delay" to "탭 후 대기 시간 (ms)",
+                  "support_title" to "개발자 후원하기",
+                  "support_text" to "이 앱이 도움이 되었다면 카드 송금으로 개발을 후원해 주세요. 자율 후원이며 기능에는 영향이 없습니다.",
+                  "card_label" to "카드 번호",
+                  "copy" to "번호 복사",
+                  "copied" to "번호가 복사되었습니다",
+                  "thanks" to "후원해 주셔서 감사합니다! ❄"
+              )
+
+              private val zh = mapOf(
+                  "sub" to "宠物属性自动强化",
+                  "tab_home" to "主页",
+                  "tab_settings" to "设置",
+                  "tab_support" to "支持",
+                  "svc_on" to "服务已开启",
+                  "svc_off" to "服务未开启",
+                  "enable" to "开启无障碍服务",
+                  "param_title" to "要强化的属性",
+                  "stat0" to "步兵杀伤",
+                  "stat1" to "步兵生命",
+                  "stat2" to "枪兵杀伤",
+                  "stat3" to "枪兵生命",
+                  "stat4" to "弓兵杀伤",
+                  "stat5" to "弓兵生命",
+                  "show" to "▶  显示 START 按钮",
+                  "hint" to "1. 开启无障碍服务\n2. 在游戏中打开宠物强化界面\n3. 点击 START。按钮可用手指拖动",
+                  "need_service" to "请先开启无障碍服务",
+                  "started" to "打开游戏并点击 START",
+                  "settings_title" to "设置",
+                  "lang_title" to "语言",
+                  "max_tries" to "最大尝试次数",
+                  "delay" to "点击后等待时间（毫秒）",
+                  "support_title" to "支持作者",
+                  "support_text" to "如果这个应用对您有帮助，欢迎通过银行卡转账支持开发。完全自愿，不会解锁任何功能。",
+                  "card_label" to "银行卡号",
+                  "copy" to "复制卡号",
+                  "copied" to "卡号已复制",
+                  "thanks" to "感谢您的支持！❄"
+              )
+
+              private val ar = mapOf(
+                  "sub" to "ترقية تلقائية لخصائص الحيوانات الأليفة",
+                  "tab_home" to "الرئيسية",
+                  "tab_settings" to "الإعدادات",
+                  "tab_support" to "الدعم",
+                  "svc_on" to "الخدمة مفعّلة",
+                  "svc_off" to "الخدمة غير مفعّلة",
+                  "enable" to "تفعيل خدمة إمكانية الوصول",
+                  "param_title" to "الخاصية المراد ترقيتها",
+                  "stat0" to "فتك المشاة",
+                  "stat1" to "صحة المشاة",
+                  "stat2" to "فتك الرماحة",
+                  "stat3" to "صحة الرماحة",
+                  "stat4" to "فتك الرماة",
+                  "stat5" to "صحة الرماة",
+                  "show" to "▶  إظهار زر START",
+                  "hint" to "1. فعّل خدمة إمكانية الوصول\n2. افتح اللعبة على شاشة ترقية الحيوان الأليف\n3. اضغط START. يمكنك سحب الزر بإصبعك",
+                  "need_service" to "فعّل خدمة إمكانية الوصول أولاً",
+                  "started" to "افتح اللعبة واضغط START",
+                  "settings_title" to "الإعدادات",
+                  "lang_title" to "اللغة",
+                  "max_tries" to "الحد الأقصى للمحاولات",
+                  "delay" to "التأخير بعد النقر (مللي ثانية)",
+                  "support_title" to "ادعم المطوّر",
+                  "support_text" to "إذا ساعدك هذا التطبيق فيمكنك دعم تطويره بتحويل إلى البطاقة. الدعم اختياري ولا يفتح أي ميزة.",
+                  "card_label" to "رقم البطاقة",
+                  "copy" to "نسخ الرقم",
+                  "copied" to "تم نسخ الرقم",
+                  "thanks" to "شكراً لدعمك! ❄"
+              )
+
+              private val all = mapOf("ru" to ru, "en" to en, "ko" to ko, "zh" to zh, "ar" to ar)
+
+              fun t(key: String): String = all[lang]?.get(key) ?: all["en"]?.get(key) ?: key
+          }
+          EOF_8
+          mkdir -p $(dirname app/src/main/java/com/example/wosclicker/MainActivity.kt)
+          cat > app/src/main/java/com/example/wosclicker/MainActivity.kt <<'EOF_9'
+          package com.example.wosclicker
+
+          import android.content.ClipData
+          import android.content.ClipboardManager
+          import android.content.Context
           import android.content.Intent
           import android.graphics.Color
           import android.graphics.Typeface
@@ -153,8 +326,13 @@ jobs:
           import android.widget.TextView
           import android.widget.Toast
           import androidx.appcompat.app.AppCompatActivity
+          import java.util.Locale
 
           class MainActivity : AppCompatActivity() {
+
+              companion object {
+                  const val CARD = "4400430358159272"
+              }
 
               private val cAccent = Color.parseColor("#5AB8FF")
               private val cDark = Color.parseColor("#0A1628")
@@ -162,22 +340,19 @@ jobs:
               private val cGreen = Color.parseColor("#3DDC84")
               private val cRed = Color.parseColor("#FF5C5C")
 
-              private val names = listOf(
-                  "Смертоносность пехоты", "Здоровье пехоты",
-                  "Смертоносность копейщиков", "Здоровье копейщиков",
-                  "Смертоносность стрелков", "Здоровье стрелков"
-              )
-
-              private lateinit var statusDot: View
-              private lateinit var statusText: TextView
-              private lateinit var enableBtn: TextView
-              private lateinit var maxEdit: EditText
-              private lateinit var delayEdit: EditText
+              private var tab = 0
+              private var statusDot: View? = null
+              private var statusText: TextView? = null
+              private var enableBtn: TextView? = null
+              private var maxEdit: EditText? = null
+              private var delayEdit: EditText? = null
               private val rowViews = ArrayList<TextView>()
+
+              // ---------- helpers ----------
 
               private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
 
-              private fun rounded(fill: Int, radiusDp: Int, strokeColor: Int = 0, strokeDp: Int = 0): GradientDrawable {
+              private fun rounded(fill: Int, radiusDp: Int, strokeColor: Int, strokeDp: Int): GradientDrawable {
                   val d = GradientDrawable()
                   d.shape = GradientDrawable.RECTANGLE
                   d.cornerRadius = dp(radiusDp).toFloat()
@@ -234,142 +409,40 @@ jobs:
                   return e
               }
 
+              private fun newRow(): TextView {
+                  val v = text("", 16f, Color.WHITE, false)
+                  v.setPadding(dp(14), dp(12), dp(14), dp(12))
+                  v.layoutParams = matchWrap(8)
+                  return v
+              }
+
+              private fun styleRow(v: TextView, label: String, selected: Boolean) {
+                  v.text = (if (selected) "●  " else "○  ") + label
+                  v.setTextColor(if (selected) cDark else Color.WHITE)
+                  v.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+                  v.background = if (selected) {
+                      rounded(cAccent, 12, 0, 0)
+                  } else {
+                      rounded(Color.parseColor("#14FFFFFF"), 12, Color.parseColor("#26FFFFFF"), 1)
+                  }
+              }
+
+              // ---------- lifecycle ----------
+
               override fun onCreate(savedInstanceState: Bundle?) {
                   super.onCreate(savedInstanceState)
                   ClickService.loadPrefs(this)
-
+                  val sp = getSharedPreferences("wos", Context.MODE_PRIVATE)
+                  val saved = sp.getString("lang", null)
+                  L.lang = if (saved != null && L.codes.contains(saved)) {
+                      saved
+                  } else {
+                      val sys = Locale.getDefault().language
+                      if (L.codes.contains(sys)) sys else "en"
+                  }
                   window.statusBarColor = Color.parseColor("#0A1628")
-                  window.navigationBarColor = Color.parseColor("#1B4B82")
-
-                  val scroll = ScrollView(this)
-                  scroll.isFillViewport = true
-                  scroll.background = GradientDrawable(
-                      GradientDrawable.Orientation.TOP_BOTTOM,
-                      intArrayOf(Color.parseColor("#0A1628"), Color.parseColor("#1B4B82"))
-                  )
-
-                  val root = LinearLayout(this)
-                  root.orientation = LinearLayout.VERTICAL
-                  root.setPadding(dp(20), dp(48), dp(20), dp(32))
-                  scroll.addView(root)
-
-                  // Заголовок
-                  root.addView(text("❄  WOS Clicker", 30f, Color.WHITE, true))
-                  val sub = text("Автоулучшение параметров питомцев", 14f, cMuted, false)
-                  sub.layoutParams = matchWrap(4)
-                  root.addView(sub)
-
-                  // Статус службы
-                  val statusCard = card()
-                  val statusRow = LinearLayout(this)
-                  statusRow.orientation = LinearLayout.HORIZONTAL
-                  statusRow.gravity = Gravity.CENTER_VERTICAL
-                  statusDot = View(this)
-                  val dotLp = LinearLayout.LayoutParams(dp(12), dp(12))
-                  dotLp.rightMargin = dp(10)
-                  statusDot.layoutParams = dotLp
-                  statusText = text("", 16f, Color.WHITE, true)
-                  statusRow.addView(statusDot)
-                  statusRow.addView(statusText)
-                  statusCard.addView(statusRow)
-                  enableBtn = button("Включить службу доступности", cAccent, cDark)
-                  enableBtn.setOnClickListener {
-                      startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-                  }
-                  statusCard.addView(enableBtn)
-                  root.addView(statusCard)
-
-                  // Выбор параметра
-                  val paramCard = card()
-                  paramCard.addView(text("ПАРАМЕТР ДЛЯ УЛУЧШЕНИЯ", 12f, cMuted, true))
-                  for (i in names.indices) {
-                      val row = text(names[i], 16f, Color.WHITE, false)
-                      row.setPadding(dp(14), dp(12), dp(14), dp(12))
-                      row.layoutParams = matchWrap(8)
-                      row.setOnClickListener {
-                          ClickService.row = i
-                          ClickService.savePrefs(this)
-                          refreshRows()
-                      }
-                      rowViews.add(row)
-                      paramCard.addView(row)
-                  }
-                  root.addView(paramCard)
-                  refreshRows()
-
-                  // Настройки
-                  val setCard = card()
-                  setCard.addView(text("НАСТРОЙКИ", 12f, cMuted, true))
-                  val l1 = text("Максимум попыток", 14f, Color.WHITE, false)
-                  l1.layoutParams = matchWrap(10)
-                  setCard.addView(l1)
-                  maxEdit = input(ClickService.maxTries.toString())
-                  setCard.addView(maxEdit)
-                  val l2 = text("Пауза после нажатия, мс", 14f, Color.WHITE, false)
-                  l2.layoutParams = matchWrap(12)
-                  setCard.addView(l2)
-                  delayEdit = input(ClickService.delayMs.toString())
-                  setCard.addView(delayEdit)
-                  root.addView(setCard)
-
-                  // Главная кнопка
-                  val show = button("▶  Показать кнопку START", cGreen, cDark)
-                  show.layoutParams = matchWrap(20)
-                  show.setOnClickListener {
-                      saveSettings()
-                      val svc = ClickService.instance
-                      if (svc == null) {
-                          Toast.makeText(this, "Сначала включите службу доступности", Toast.LENGTH_LONG).show()
-                      } else {
-                          svc.showOverlay()
-                          Toast.makeText(this, "Откройте игру и нажмите START", Toast.LENGTH_LONG).show()
-                      }
-                  }
-                  root.addView(show)
-
-                  // Подсказка
-                  val hint = text(
-                      "1. Включите службу доступности\n" +
-                      "2. Откройте игру на экране улучшения питомца\n" +
-                      "3. Нажмите START. Кнопку можно перетащить пальцем",
-                      13f, cMuted, false
-                  )
-                  hint.setLineSpacing(0f, 1.2f)
-                  hint.layoutParams = matchWrap(18)
-                  root.addView(hint)
-
-                  setContentView(scroll)
-              }
-
-              private fun refreshRows() {
-                  for (i in rowViews.indices) {
-                      val selected = i == ClickService.row
-                      val v = rowViews[i]
-                      v.text = (if (selected) "●  " else "○  ") + names[i]
-                      v.setTextColor(if (selected) cDark else Color.WHITE)
-                      v.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
-                      v.background = if (selected) {
-                          rounded(cAccent, 12, 0, 0)
-                      } else {
-                          rounded(Color.parseColor("#14FFFFFF"), 12, Color.parseColor("#26FFFFFF"), 1)
-                      }
-                  }
-              }
-
-              private fun refreshStatus() {
-                  val on = ClickService.instance != null
-                  val dot = GradientDrawable()
-                  dot.shape = GradientDrawable.OVAL
-                  dot.setColor(if (on) cGreen else cRed)
-                  statusDot.background = dot
-                  statusText.text = if (on) "Служба включена" else "Служба выключена"
-                  enableBtn.visibility = if (on) View.GONE else View.VISIBLE
-              }
-
-              private fun saveSettings() {
-                  ClickService.maxTries = (maxEdit.text.toString().toIntOrNull() ?: 300).coerceAtLeast(1)
-                  ClickService.delayMs = (delayEdit.text.toString().toLongOrNull() ?: 1300L).coerceAtLeast(300L)
-                  ClickService.savePrefs(this)
+                  window.navigationBarColor = Color.parseColor("#0A1628")
+                  render()
               }
 
               override fun onResume() {
@@ -381,10 +454,270 @@ jobs:
                   super.onPause()
                   saveSettings()
               }
+
+              // ---------- screens ----------
+
+              private fun render() {
+                  saveSettings()
+                  rowViews.clear()
+                  statusDot = null
+                  statusText = null
+                  enableBtn = null
+                  maxEdit = null
+                  delayEdit = null
+
+                  val outer = LinearLayout(this)
+                  outer.orientation = LinearLayout.VERTICAL
+                  outer.background = GradientDrawable(
+                      GradientDrawable.Orientation.TOP_BOTTOM,
+                      intArrayOf(Color.parseColor("#0A1628"), Color.parseColor("#1B4B82"))
+                  )
+                  outer.layoutDirection = if (L.lang == "ar") View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+
+                  val scroll = ScrollView(this)
+                  scroll.isFillViewport = true
+                  outer.addView(scroll, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
+
+                  val page = LinearLayout(this)
+                  page.orientation = LinearLayout.VERTICAL
+                  page.setPadding(dp(20), dp(48), dp(20), dp(24))
+                  scroll.addView(page)
+
+                  page.addView(text("❄  WOS Clicker", 30f, Color.WHITE, true))
+                  val sub = text(L.t("sub"), 14f, cMuted, false)
+                  sub.layoutParams = matchWrap(4)
+                  page.addView(sub)
+
+                  when (tab) {
+                      0 -> buildHome(page)
+                      1 -> buildSettings(page)
+                      else -> buildSupport(page)
+                  }
+
+                  outer.addView(buildTabBar())
+                  setContentView(outer)
+                  refreshStatus()
+              }
+
+              private fun buildTabBar(): LinearLayout {
+                  val bar = LinearLayout(this)
+                  bar.orientation = LinearLayout.HORIZONTAL
+                  bar.setBackgroundColor(Color.parseColor("#F00A1628"))
+                  bar.setPadding(dp(8), dp(6), dp(8), dp(10))
+                  val icons = listOf("🏠", "⚙️", "❤️")
+                  val labels = listOf(L.t("tab_home"), L.t("tab_settings"), L.t("tab_support"))
+                  for (i in 0 until 3) {
+                      val selected = i == tab
+                      val t = text(icons[i] + "\n" + labels[i], 12f, if (selected) cDark else cMuted, selected)
+                      t.gravity = Gravity.CENTER
+                      t.setPadding(dp(4), dp(8), dp(4), dp(8))
+                      t.background = if (selected) rounded(cAccent, 14, 0, 0) else rounded(Color.TRANSPARENT, 14, 0, 0)
+                      val lp = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+                      lp.setMargins(dp(4), 0, dp(4), 0)
+                      t.layoutParams = lp
+                      t.setOnClickListener {
+                          tab = i
+                          render()
+                      }
+                      bar.addView(t)
+                  }
+                  return bar
+              }
+
+              private fun buildHome(page: LinearLayout) {
+                  // Статус службы
+                  val statusCard = card()
+                  val statusRow = LinearLayout(this)
+                  statusRow.orientation = LinearLayout.HORIZONTAL
+                  statusRow.gravity = Gravity.CENTER_VERTICAL
+                  val dot = View(this)
+                  val dotLp = LinearLayout.LayoutParams(dp(12), dp(12))
+                  dotLp.marginEnd = dp(10)
+                  dot.layoutParams = dotLp
+                  val st = text("", 16f, Color.WHITE, true)
+                  statusRow.addView(dot)
+                  statusRow.addView(st)
+                  statusCard.addView(statusRow)
+                  val eb = button(L.t("enable"), cAccent, cDark)
+                  eb.setOnClickListener {
+                      startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                  }
+                  statusCard.addView(eb)
+                  page.addView(statusCard)
+                  statusDot = dot
+                  statusText = st
+                  enableBtn = eb
+
+                  // Параметр
+                  val paramCard = card()
+                  paramCard.addView(text(L.t("param_title"), 12f, cMuted, true))
+                  for (i in 0 until 6) {
+                      val row = newRow()
+                      row.setOnClickListener {
+                          ClickService.row = i
+                          ClickService.savePrefs(this)
+                          refreshRows()
+                      }
+                      rowViews.add(row)
+                      paramCard.addView(row)
+                  }
+                  page.addView(paramCard)
+                  refreshRows()
+
+                  // Старт
+                  val show = button(L.t("show"), cGreen, cDark)
+                  show.layoutParams = matchWrap(20)
+                  show.setOnClickListener {
+                      saveSettings()
+                      val svc = ClickService.instance
+                      if (svc == null) {
+                          Toast.makeText(this, L.t("need_service"), Toast.LENGTH_LONG).show()
+                      } else {
+                          svc.showOverlay()
+                          Toast.makeText(this, L.t("started"), Toast.LENGTH_LONG).show()
+                      }
+                  }
+                  page.addView(show)
+
+                  val hint = text(L.t("hint"), 13f, cMuted, false)
+                  hint.setLineSpacing(0f, 1.2f)
+                  hint.layoutParams = matchWrap(18)
+                  page.addView(hint)
+              }
+
+              private fun buildSettings(page: LinearLayout) {
+                  // Язык
+                  val langCard = card()
+                  langCard.addView(text(L.t("lang_title"), 12f, cMuted, true))
+                  for (i in L.codes.indices) {
+                      val row = newRow()
+                      styleRow(row, L.langNames[i], L.codes[i] == L.lang)
+                      row.setOnClickListener {
+                          L.lang = L.codes[i]
+                          getSharedPreferences("wos", Context.MODE_PRIVATE).edit().putString("lang", L.codes[i]).apply()
+                          render()
+                      }
+                      langCard.addView(row)
+                  }
+                  page.addView(langCard)
+
+                  // Параметры работы
+                  val setCard = card()
+                  setCard.addView(text(L.t("settings_title"), 12f, cMuted, true))
+                  val l1 = text(L.t("max_tries"), 14f, Color.WHITE, false)
+                  l1.layoutParams = matchWrap(10)
+                  setCard.addView(l1)
+                  val me = input(ClickService.maxTries.toString())
+                  setCard.addView(me)
+                  val l2 = text(L.t("delay"), 14f, Color.WHITE, false)
+                  l2.layoutParams = matchWrap(12)
+                  setCard.addView(l2)
+                  val de = input(ClickService.delayMs.toString())
+                  setCard.addView(de)
+                  page.addView(setCard)
+                  maxEdit = me
+                  delayEdit = de
+              }
+
+              private fun buildSupport(page: LinearLayout) {
+                  val c = card()
+
+                  val heart = text("❤️", 40f, cRed, false)
+                  heart.gravity = Gravity.CENTER
+                  c.addView(heart)
+
+                  val title = text(L.t("support_title"), 22f, Color.WHITE, true)
+                  title.gravity = Gravity.CENTER
+                  title.layoutParams = matchWrap(6)
+                  c.addView(title)
+
+                  val body = text(L.t("support_text"), 14f, cMuted, false)
+                  body.gravity = Gravity.CENTER
+                  body.setLineSpacing(0f, 1.2f)
+                  body.layoutParams = matchWrap(10)
+                  c.addView(body)
+
+                  // «Банковская карта»
+                  val bank = LinearLayout(this)
+                  bank.orientation = LinearLayout.VERTICAL
+                  bank.layoutDirection = View.LAYOUT_DIRECTION_LTR
+                  bank.setPadding(dp(22), dp(20), dp(22), dp(22))
+                  val bg = GradientDrawable(
+                      GradientDrawable.Orientation.TL_BR,
+                      intArrayOf(Color.parseColor("#2B7FFF"), Color.parseColor("#7A5CFF"))
+                  )
+                  bg.cornerRadius = dp(20).toFloat()
+                  bank.background = bg
+                  bank.layoutParams = matchWrap(18)
+
+                  val chip = View(this)
+                  chip.background = rounded(Color.parseColor("#E6C766"), 6, 0, 0)
+                  chip.layoutParams = LinearLayout.LayoutParams(dp(40), dp(28))
+                  bank.addView(chip)
+
+                  val label = text(L.t("card_label"), 11f, Color.parseColor("#CCFFFFFF"), true)
+                  label.layoutParams = matchWrap(18)
+                  bank.addView(label)
+
+                  val grouped = CARD.chunked(8).joinToString("\n") { it.chunked(4).joinToString(" ") }
+                  val num = text(grouped, 26f, Color.WHITE, true)
+                  num.setTypeface(Typeface.MONOSPACE, Typeface.BOLD)
+                  num.textDirection = View.TEXT_DIRECTION_LTR
+                  num.setLineSpacing(0f, 1.15f)
+                  num.setTextIsSelectable(true)
+                  num.layoutParams = matchWrap(4)
+                  bank.addView(num)
+                  c.addView(bank)
+
+                  val copy = button(L.t("copy"), cAccent, cDark)
+                  copy.setOnClickListener {
+                      val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                      cm.setPrimaryClip(ClipData.newPlainText("card", CARD))
+                      Toast.makeText(this, L.t("copied"), Toast.LENGTH_SHORT).show()
+                  }
+                  c.addView(copy)
+
+                  val thanks = text(L.t("thanks"), 14f, cGreen, true)
+                  thanks.gravity = Gravity.CENTER
+                  thanks.layoutParams = matchWrap(16)
+                  c.addView(thanks)
+
+                  page.addView(c)
+              }
+
+              // ---------- state ----------
+
+              private fun refreshRows() {
+                  for (i in rowViews.indices) {
+                      styleRow(rowViews[i], L.t("stat$i"), i == ClickService.row)
+                  }
+              }
+
+              private fun refreshStatus() {
+                  val dotView = statusDot ?: return
+                  val st = statusText ?: return
+                  val eb = enableBtn ?: return
+                  val on = ClickService.instance != null
+                  val d = GradientDrawable()
+                  d.shape = GradientDrawable.OVAL
+                  d.setColor(if (on) cGreen else cRed)
+                  dotView.background = d
+                  st.text = if (on) L.t("svc_on") else L.t("svc_off")
+                  eb.visibility = if (on) View.GONE else View.VISIBLE
+              }
+
+              private fun saveSettings() {
+                  val m = maxEdit
+                  val d = delayEdit
+                  if (m == null || d == null) return
+                  ClickService.maxTries = (m.text.toString().toIntOrNull() ?: 300).coerceAtLeast(1)
+                  ClickService.delayMs = (d.text.toString().toLongOrNull() ?: 1300L).coerceAtLeast(300L)
+                  ClickService.savePrefs(this)
+              }
           }
-          EOF_8
+          EOF_9
           mkdir -p $(dirname app/src/main/java/com/example/wosclicker/ClickService.kt)
-          cat > app/src/main/java/com/example/wosclicker/ClickService.kt <<'EOF_9'
+          cat > app/src/main/java/com/example/wosclicker/ClickService.kt <<'EOF_10'
           package com.example.wosclicker
 
           import android.accessibilityservice.AccessibilityService
@@ -610,7 +943,7 @@ jobs:
                   // Экран с большой кнопкой "Соверш." -> нажать её, чтобы начать новую попытку
                   if (isBrightBlue(bmp, COMPLETE_CHECK[0], COMPLETE_CHECK[1])) {
                       bmp.recycle()
-                      setLabel("■ $tries  СОВЕРШ.")
+                      setLabel("■ $tries  ✔")
                       tap(BTN_COMPLETE[0] / REF_W * w, BTN_COMPLETE[1] / REF_H * h)
                       handler.postDelayed({ step() }, delayMs)
                       return
@@ -653,7 +986,7 @@ jobs:
                   dispatchGesture(gesture, null, null)
               }
           }
-          EOF_9
+          EOF_10
       - name: Build
         run: gradle assembleDebug --no-daemon --stacktrace
       - uses: actions/upload-artifact@v4
