@@ -56,8 +56,8 @@ jobs:
                   applicationId "com.example.wosclicker"
                   minSdk 30
                   targetSdk 34
-                  versionCode 2
-                  versionName "1.1"
+                  versionCode 1
+                  versionName "1.0"
               }
               compileOptions {
                   sourceCompatibility JavaVersion.VERSION_17
@@ -67,7 +67,6 @@ jobs:
           }
           dependencies {
               implementation 'androidx.appcompat:appcompat:1.6.1'
-              implementation 'com.google.mlkit:text-recognition:16.0.1'
           }
           EOF_3
           mkdir -p $(dirname app/src/main/AndroidManifest.xml)
@@ -160,15 +159,11 @@ jobs:
                   "stat4" to "Смертоносность стрелков",
                   "stat5" to "Здоровье стрелков",
                   "show" to "▶  Показать кнопку START",
-                  "hint" to "1. Включите службу доступности\n2. Откройте игру на экране улучшения питомца\n3. Нажмите START. Кнопку можно перетащить пальцем\n\nЗаменить, если прирост общей мощности ≥ порога (и выбранный параметр не просел сильнее допустимого). Пороги меняются во вкладке «Настройки».",
+                  "hint" to "1. Включите службу доступности\n2. Откройте игру на экране улучшения питомца\n3. Нажмите START. Кнопку можно перетащить пальцем",
                   "need_service" to "Сначала включите службу доступности",
                   "started" to "Откройте игру и нажмите START",
                   "settings_title" to "НАСТРОЙКИ",
                   "lang_title" to "ЯЗЫК",
-                  "rules_title" to "УСЛОВИЯ ЗАМЕНЫ",
-                  "min_power" to "Мин. прирост общей мощности (например 2000)",
-                  "check_stat" to "Учитывать выбранный параметр",
-                  "max_drop" to "Допустимое падение параметра, % (например 0.05)",
                   "max_tries" to "Максимум попыток",
                   "delay" to "Пауза после нажатия, мс",
                   "support_title" to "Поддержать автора",
@@ -195,15 +190,11 @@ jobs:
                   "stat4" to "Marksman Lethality",
                   "stat5" to "Marksman Health",
                   "show" to "▶  Show START button",
-                  "hint" to "1. Enable the accessibility service\n2. Open the game on the pet upgrade screen\n3. Tap START. You can drag the button with your finger\n\nReplace if total power gain ≥ threshold (and the chosen stat did not drop more than allowed). Thresholds are in the Settings tab.",
+                  "hint" to "1. Enable the accessibility service\n2. Open the game on the pet upgrade screen\n3. Tap START. You can drag the button with your finger",
                   "need_service" to "Enable the accessibility service first",
                   "started" to "Open the game and tap START",
                   "settings_title" to "SETTINGS",
                   "lang_title" to "LANGUAGE",
-                  "rules_title" to "REPLACE RULES",
-                  "min_power" to "Min total power gain (e.g. 2000)",
-                  "check_stat" to "Check the chosen stat",
-                  "max_drop" to "Allowed stat drop, % (e.g. 0.05)",
                   "max_tries" to "Max attempts",
                   "delay" to "Delay after tap, ms",
                   "support_title" to "Support the author",
@@ -230,15 +221,11 @@ jobs:
                   "stat4" to "궁병 살상력",
                   "stat5" to "궁병 체력",
                   "show" to "▶  START 버튼 표시",
-                  "hint" to "1. 접근성 서비스를 켜세요\n2. 게임에서 펫 강화 화면을 여세요\n3. START를 누르세요. 버튼은 손가락으로 옮길 수 있습니다\n\n총 전투력 증가가 기준 이상이면 교체합니다. 기준은 설정 탭에서 변경하세요.",
+                  "hint" to "1. 접근성 서비스를 켜세요\n2. 게임에서 펫 강화 화면을 여세요\n3. START를 누르세요. 버튼은 손가락으로 옮길 수 있습니다",
                   "need_service" to "먼저 접근성 서비스를 켜세요",
                   "started" to "게임을 열고 START를 누르세요",
                   "settings_title" to "설정",
                   "lang_title" to "언어",
-                  "rules_title" to "교체 조건",
-                  "min_power" to "최소 전투력 증가 (예: 2000)",
-                  "check_stat" to "선택한 능력치 확인",
-                  "max_drop" to "허용 능력치 감소, % (예: 0.05)",
                   "max_tries" to "최대 시도 횟수",
                   "delay" to "탭 후 대기 시간 (ms)",
                   "support_title" to "개발자 후원하기",
@@ -265,15 +252,11 @@ jobs:
                   "stat4" to "弓兵杀伤",
                   "stat5" to "弓兵生命",
                   "show" to "▶  显示 START 按钮",
-                  "hint" to "1. 开启无障碍服务\n2. 在游戏中打开宠物强化界面\n3. 点击 START。按钮可用手指拖动\n\n总战力增幅达到阈值时替换。阈值可在“设置”页修改。",
+                  "hint" to "1. 开启无障碍服务\n2. 在游戏中打开宠物强化界面\n3. 点击 START。按钮可用手指拖动",
                   "need_service" to "请先开启无障碍服务",
                   "started" to "打开游戏并点击 START",
                   "settings_title" to "设置",
                   "lang_title" to "语言",
-                  "rules_title" to "替换条件",
-                  "min_power" to "最低总战力增幅（例如 2000）",
-                  "check_stat" to "检查所选属性",
-                  "max_drop" to "允许属性下降 %（例如 0.05）",
                   "max_tries" to "最大尝试次数",
                   "delay" to "点击后等待时间（毫秒）",
                   "support_title" to "支持作者",
@@ -300,15 +283,11 @@ jobs:
                   "stat4" to "فتك الرماة",
                   "stat5" to "صحة الرماة",
                   "show" to "▶  إظهار زر START",
-                  "hint" to "1. فعّل خدمة إمكانية الوصول\n2. افتح اللعبة على شاشة ترقية الحيوان الأليف\n3. اضغط START. يمكنك سحب الزر بإصبعك\n\nيتم الاستبدال إذا كانت زيادة القوة الكلية ≥ الحد. يمكن تغيير الحدود من تبويب الإعدادات.",
+                  "hint" to "1. فعّل خدمة إمكانية الوصول\n2. افتح اللعبة على شاشة ترقية الحيوان الأليف\n3. اضغط START. يمكنك سحب الزر بإصبعك",
                   "need_service" to "فعّل خدمة إمكانية الوصول أولاً",
                   "started" to "افتح اللعبة واضغط START",
                   "settings_title" to "الإعدادات",
                   "lang_title" to "اللغة",
-                  "rules_title" to "شروط الاستبدال",
-                  "min_power" to "أدنى زيادة في القوة الكلية (مثال 2000)",
-                  "check_stat" to "مراعاة الخاصية المختارة",
-                  "max_drop" to "الانخفاض المسموح للخاصية % (مثال 0.05)",
                   "max_tries" to "الحد الأقصى للمحاولات",
                   "delay" to "التأخير بعد النقر (مللي ثانية)",
                   "support_title" to "ادعم المطوّر",
@@ -324,8 +303,421 @@ jobs:
               fun t(key: String): String = all[lang]?.get(key) ?: all["en"]?.get(key) ?: key
           }
           EOF_8
+          mkdir -p $(dirname app/src/main/java/com/example/wosclicker/MainActivity.kt)
+          cat > app/src/main/java/com/example/wosclicker/MainActivity.kt <<'EOF_9'
+          package com.example.wosclicker
+
+          import android.content.ClipData
+          import android.content.ClipboardManager
+          import android.content.Context
+          import android.content.Intent
+          import android.graphics.Color
+          import android.graphics.Typeface
+          import android.graphics.drawable.GradientDrawable
+          import android.os.Bundle
+          import android.provider.Settings
+          import android.text.InputType
+          import android.view.Gravity
+          import android.view.View
+          import android.view.ViewGroup
+          import android.widget.EditText
+          import android.widget.LinearLayout
+          import android.widget.ScrollView
+          import android.widget.TextView
+          import android.widget.Toast
+          import androidx.appcompat.app.AppCompatActivity
+          import java.util.Locale
+
+          class MainActivity : AppCompatActivity() {
+
+              companion object {
+                  const val CARD = "4400430358159272"
+              }
+
+              private val cAccent = Color.parseColor("#5AB8FF")
+              private val cDark = Color.parseColor("#0A1628")
+              private val cMuted = Color.parseColor("#9FB7D6")
+              private val cGreen = Color.parseColor("#3DDC84")
+              private val cRed = Color.parseColor("#FF5C5C")
+
+              private var tab = 0
+              private var statusDot: View? = null
+              private var statusText: TextView? = null
+              private var enableBtn: TextView? = null
+              private var maxEdit: EditText? = null
+              private var delayEdit: EditText? = null
+              private val rowViews = ArrayList<TextView>()
+
+              // ---------- helpers ----------
+
+              private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
+
+              private fun rounded(fill: Int, radiusDp: Int, strokeColor: Int, strokeDp: Int): GradientDrawable {
+                  val d = GradientDrawable()
+                  d.shape = GradientDrawable.RECTANGLE
+                  d.cornerRadius = dp(radiusDp).toFloat()
+                  d.setColor(fill)
+                  if (strokeDp > 0) d.setStroke(dp(strokeDp), strokeColor)
+                  return d
+              }
+
+              private fun matchWrap(topDp: Int): LinearLayout.LayoutParams {
+                  val p = LinearLayout.LayoutParams(
+                      ViewGroup.LayoutParams.MATCH_PARENT,
+                      ViewGroup.LayoutParams.WRAP_CONTENT
+                  )
+                  p.topMargin = dp(topDp)
+                  return p
+              }
+
+              private fun text(t: String, size: Float, color: Int, bold: Boolean): TextView {
+                  val v = TextView(this)
+                  v.text = t
+                  v.textSize = size
+                  v.setTextColor(color)
+                  if (bold) v.setTypeface(null, Typeface.BOLD)
+                  return v
+              }
+
+              private fun card(): LinearLayout {
+                  val c = LinearLayout(this)
+                  c.orientation = LinearLayout.VERTICAL
+                  c.setPadding(dp(18), dp(16), dp(18), dp(18))
+                  c.background = rounded(Color.parseColor("#1AFFFFFF"), 20, Color.parseColor("#33FFFFFF"), 1)
+                  c.layoutParams = matchWrap(16)
+                  return c
+              }
+
+              private fun button(t: String, fill: Int, textColor: Int): TextView {
+                  val v = text(t, 16f, textColor, true)
+                  v.gravity = Gravity.CENTER
+                  v.setPadding(dp(16), dp(14), dp(16), dp(14))
+                  v.background = rounded(fill, 16, 0, 0)
+                  v.layoutParams = matchWrap(14)
+                  return v
+              }
+
+              private fun input(value: String): EditText {
+                  val e = EditText(this)
+                  e.setText(value)
+                  e.setTextColor(Color.WHITE)
+                  e.textSize = 16f
+                  e.inputType = InputType.TYPE_CLASS_NUMBER
+                  e.setPadding(dp(14), dp(10), dp(14), dp(10))
+                  e.background = rounded(Color.parseColor("#33000000"), 12, Color.parseColor("#33FFFFFF"), 1)
+                  e.layoutParams = matchWrap(6)
+                  return e
+              }
+
+              private fun newRow(): TextView {
+                  val v = text("", 16f, Color.WHITE, false)
+                  v.setPadding(dp(14), dp(12), dp(14), dp(12))
+                  v.layoutParams = matchWrap(8)
+                  return v
+              }
+
+              private fun styleRow(v: TextView, label: String, selected: Boolean) {
+                  v.text = (if (selected) "●  " else "○  ") + label
+                  v.setTextColor(if (selected) cDark else Color.WHITE)
+                  v.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+                  v.background = if (selected) {
+                      rounded(cAccent, 12, 0, 0)
+                  } else {
+                      rounded(Color.parseColor("#14FFFFFF"), 12, Color.parseColor("#26FFFFFF"), 1)
+                  }
+              }
+
+              // ---------- lifecycle ----------
+
+              override fun onCreate(savedInstanceState: Bundle?) {
+                  super.onCreate(savedInstanceState)
+                  ClickService.loadPrefs(this)
+                  val sp = getSharedPreferences("wos", Context.MODE_PRIVATE)
+                  val saved = sp.getString("lang", null)
+                  L.lang = if (saved != null && L.codes.contains(saved)) {
+                      saved
+                  } else {
+                      val sys = Locale.getDefault().language
+                      if (L.codes.contains(sys)) sys else "en"
+                  }
+                  window.statusBarColor = Color.parseColor("#0A1628")
+                  window.navigationBarColor = Color.parseColor("#0A1628")
+                  render()
+              }
+
+              override fun onResume() {
+                  super.onResume()
+                  refreshStatus()
+              }
+
+              override fun onPause() {
+                  super.onPause()
+                  saveSettings()
+              }
+
+              // ---------- screens ----------
+
+              private fun render() {
+                  saveSettings()
+                  rowViews.clear()
+                  statusDot = null
+                  statusText = null
+                  enableBtn = null
+                  maxEdit = null
+                  delayEdit = null
+
+                  val outer = LinearLayout(this)
+                  outer.orientation = LinearLayout.VERTICAL
+                  outer.background = GradientDrawable(
+                      GradientDrawable.Orientation.TOP_BOTTOM,
+                      intArrayOf(Color.parseColor("#0A1628"), Color.parseColor("#1B4B82"))
+                  )
+                  outer.layoutDirection = if (L.lang == "ar") View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+
+                  val scroll = ScrollView(this)
+                  scroll.isFillViewport = true
+                  outer.addView(scroll, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
+
+                  val page = LinearLayout(this)
+                  page.orientation = LinearLayout.VERTICAL
+                  page.setPadding(dp(20), dp(48), dp(20), dp(24))
+                  scroll.addView(page)
+
+                  page.addView(text("❄  WOS Clicker", 30f, Color.WHITE, true))
+                  val sub = text(L.t("sub"), 14f, cMuted, false)
+                  sub.layoutParams = matchWrap(4)
+                  page.addView(sub)
+
+                  when (tab) {
+                      0 -> buildHome(page)
+                      1 -> buildSettings(page)
+                      else -> buildSupport(page)
+                  }
+
+                  outer.addView(buildTabBar())
+                  setContentView(outer)
+                  refreshStatus()
+              }
+
+              private fun buildTabBar(): LinearLayout {
+                  val bar = LinearLayout(this)
+                  bar.orientation = LinearLayout.HORIZONTAL
+                  bar.setBackgroundColor(Color.parseColor("#F00A1628"))
+                  bar.setPadding(dp(8), dp(6), dp(8), dp(10))
+                  val icons = listOf("🏠", "⚙️", "❤️")
+                  val labels = listOf(L.t("tab_home"), L.t("tab_settings"), L.t("tab_support"))
+                  for (i in 0 until 3) {
+                      val selected = i == tab
+                      val t = text(icons[i] + "\n" + labels[i], 12f, if (selected) cDark else cMuted, selected)
+                      t.gravity = Gravity.CENTER
+                      t.setPadding(dp(4), dp(8), dp(4), dp(8))
+                      t.background = if (selected) rounded(cAccent, 14, 0, 0) else rounded(Color.TRANSPARENT, 14, 0, 0)
+                      val lp = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+                      lp.setMargins(dp(4), 0, dp(4), 0)
+                      t.layoutParams = lp
+                      t.setOnClickListener {
+                          tab = i
+                          render()
+                      }
+                      bar.addView(t)
+                  }
+                  return bar
+              }
+
+              private fun buildHome(page: LinearLayout) {
+                  // Статус службы
+                  val statusCard = card()
+                  val statusRow = LinearLayout(this)
+                  statusRow.orientation = LinearLayout.HORIZONTAL
+                  statusRow.gravity = Gravity.CENTER_VERTICAL
+                  val dot = View(this)
+                  val dotLp = LinearLayout.LayoutParams(dp(12), dp(12))
+                  dotLp.marginEnd = dp(10)
+                  dot.layoutParams = dotLp
+                  val st = text("", 16f, Color.WHITE, true)
+                  statusRow.addView(dot)
+                  statusRow.addView(st)
+                  statusCard.addView(statusRow)
+                  val eb = button(L.t("enable"), cAccent, cDark)
+                  eb.setOnClickListener {
+                      startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                  }
+                  statusCard.addView(eb)
+                  page.addView(statusCard)
+                  statusDot = dot
+                  statusText = st
+                  enableBtn = eb
+
+                  // Параметр
+                  val paramCard = card()
+                  paramCard.addView(text(L.t("param_title"), 12f, cMuted, true))
+                  for (i in 0 until 6) {
+                      val row = newRow()
+                      row.setOnClickListener {
+                          ClickService.row = i
+                          ClickService.savePrefs(this)
+                          refreshRows()
+                      }
+                      rowViews.add(row)
+                      paramCard.addView(row)
+                  }
+                  page.addView(paramCard)
+                  refreshRows()
+
+                  // Старт
+                  val show = button(L.t("show"), cGreen, cDark)
+                  show.layoutParams = matchWrap(20)
+                  show.setOnClickListener {
+                      saveSettings()
+                      val svc = ClickService.instance
+                      if (svc == null) {
+                          Toast.makeText(this, L.t("need_service"), Toast.LENGTH_LONG).show()
+                      } else {
+                          svc.showOverlay()
+                          Toast.makeText(this, L.t("started"), Toast.LENGTH_LONG).show()
+                      }
+                  }
+                  page.addView(show)
+
+                  val hint = text(L.t("hint"), 13f, cMuted, false)
+                  hint.setLineSpacing(0f, 1.2f)
+                  hint.layoutParams = matchWrap(18)
+                  page.addView(hint)
+              }
+
+              private fun buildSettings(page: LinearLayout) {
+                  // Язык
+                  val langCard = card()
+                  langCard.addView(text(L.t("lang_title"), 12f, cMuted, true))
+                  for (i in L.codes.indices) {
+                      val row = newRow()
+                      styleRow(row, L.langNames[i], L.codes[i] == L.lang)
+                      row.setOnClickListener {
+                          L.lang = L.codes[i]
+                          getSharedPreferences("wos", Context.MODE_PRIVATE).edit().putString("lang", L.codes[i]).apply()
+                          render()
+                      }
+                      langCard.addView(row)
+                  }
+                  page.addView(langCard)
+
+                  // Параметры работы
+                  val setCard = card()
+                  setCard.addView(text(L.t("settings_title"), 12f, cMuted, true))
+                  val l1 = text(L.t("max_tries"), 14f, Color.WHITE, false)
+                  l1.layoutParams = matchWrap(10)
+                  setCard.addView(l1)
+                  val me = input(ClickService.maxTries.toString())
+                  setCard.addView(me)
+                  val l2 = text(L.t("delay"), 14f, Color.WHITE, false)
+                  l2.layoutParams = matchWrap(12)
+                  setCard.addView(l2)
+                  val de = input(ClickService.delayMs.toString())
+                  setCard.addView(de)
+                  page.addView(setCard)
+                  maxEdit = me
+                  delayEdit = de
+              }
+
+              private fun buildSupport(page: LinearLayout) {
+                  val c = card()
+
+                  val heart = text("❤️", 40f, cRed, false)
+                  heart.gravity = Gravity.CENTER
+                  c.addView(heart)
+
+                  val title = text(L.t("support_title"), 22f, Color.WHITE, true)
+                  title.gravity = Gravity.CENTER
+                  title.layoutParams = matchWrap(6)
+                  c.addView(title)
+
+                  val body = text(L.t("support_text"), 14f, cMuted, false)
+                  body.gravity = Gravity.CENTER
+                  body.setLineSpacing(0f, 1.2f)
+                  body.layoutParams = matchWrap(10)
+                  c.addView(body)
+
+                  // «Банковская карта»
+                  val bank = LinearLayout(this)
+                  bank.orientation = LinearLayout.VERTICAL
+                  bank.layoutDirection = View.LAYOUT_DIRECTION_LTR
+                  bank.setPadding(dp(22), dp(20), dp(22), dp(22))
+                  val bg = GradientDrawable(
+                      GradientDrawable.Orientation.TL_BR,
+                      intArrayOf(Color.parseColor("#2B7FFF"), Color.parseColor("#7A5CFF"))
+                  )
+                  bg.cornerRadius = dp(20).toFloat()
+                  bank.background = bg
+                  bank.layoutParams = matchWrap(18)
+
+                  val chip = View(this)
+                  chip.background = rounded(Color.parseColor("#E6C766"), 6, 0, 0)
+                  chip.layoutParams = LinearLayout.LayoutParams(dp(40), dp(28))
+                  bank.addView(chip)
+
+                  val label = text(L.t("card_label"), 11f, Color.parseColor("#CCFFFFFF"), true)
+                  label.layoutParams = matchWrap(18)
+                  bank.addView(label)
+
+                  val grouped = CARD.chunked(8).joinToString("\n") { it.chunked(4).joinToString(" ") }
+                  val num = text(grouped, 26f, Color.WHITE, true)
+                  num.setTypeface(Typeface.MONOSPACE, Typeface.BOLD)
+                  num.textDirection = View.TEXT_DIRECTION_LTR
+                  num.setLineSpacing(0f, 1.15f)
+                  num.setTextIsSelectable(true)
+                  num.layoutParams = matchWrap(4)
+                  bank.addView(num)
+                  c.addView(bank)
+
+                  val copy = button(L.t("copy"), cAccent, cDark)
+                  copy.setOnClickListener {
+                      val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                      cm.setPrimaryClip(ClipData.newPlainText("card", CARD))
+                      Toast.makeText(this, L.t("copied"), Toast.LENGTH_SHORT).show()
+                  }
+                  c.addView(copy)
+
+                  val thanks = text(L.t("thanks"), 14f, cGreen, true)
+                  thanks.gravity = Gravity.CENTER
+                  thanks.layoutParams = matchWrap(16)
+                  c.addView(thanks)
+
+                  page.addView(c)
+              }
+
+              // ---------- state ----------
+
+              private fun refreshRows() {
+                  for (i in rowViews.indices) {
+                      styleRow(rowViews[i], L.t("stat$i"), i == ClickService.row)
+                  }
+              }
+
+              private fun refreshStatus() {
+                  val dotView = statusDot ?: return
+                  val st = statusText ?: return
+                  val eb = enableBtn ?: return
+                  val on = ClickService.instance != null
+                  val d = GradientDrawable()
+                  d.shape = GradientDrawable.OVAL
+                  d.setColor(if (on) cGreen else cRed)
+                  dotView.background = d
+                  st.text = if (on) L.t("svc_on") else L.t("svc_off")
+                  eb.visibility = if (on) View.GONE else View.VISIBLE
+              }
+
+              private fun saveSettings() {
+                  val m = maxEdit
+                  val d = delayEdit
+                  if (m == null || d == null) return
+                  ClickService.maxTries = (m.text.toString().toIntOrNull() ?: 300).coerceAtLeast(1)
+                  ClickService.delayMs = (d.text.toString().toLongOrNull() ?: 1300L).coerceAtLeast(300L)
+                  ClickService.savePrefs(this)
+              }
+          }
+          EOF_9
           mkdir -p $(dirname app/src/main/java/com/example/wosclicker/ClickService.kt)
-          cat > app/src/main/java/com/example/wosclicker/ClickService.kt <<'EOF_9'
+          cat > app/src/main/java/com/example/wosclicker/ClickService.kt <<'EOF_10'
           package com.example.wosclicker
 
           import android.accessibilityservice.AccessibilityService
@@ -345,9 +737,6 @@ jobs:
           import android.view.WindowManager
           import android.view.accessibility.AccessibilityEvent
           import android.widget.TextView
-          import com.google.mlkit.vision.common.InputImage
-          import com.google.mlkit.vision.text.TextRecognition
-          import com.google.mlkit.vision.text.latin.TextRecognizerOptions
           import kotlin.math.abs
 
           class ClickService : AccessibilityService() {
@@ -358,33 +747,24 @@ jobs:
                   var maxTries: Int = 300
                   var delayMs: Long = 1300L
 
-                  // Настройки условий замены (меняются в приложении)
-                  var minPower: Int = 2000          // минимальный прирост общей мощности
-                  var checkStat: Boolean = false    // учитывать ли выбранный параметр
-                  var maxDrop: Float = 0.05f        // допустимое падение параметра, %
-
                   // Опорные координаты со скриншота 1189 x 2576
                   const val REF_W = 1189f
                   const val REF_H = 2576f
                   val ROW_Y = floatArrayOf(1228f, 1360f, 1488f, 1618f, 1748f, 1878f)
+                  const val ARROW_X = 1057f
                   val BTN_RETRY = floatArrayOf(352f, 2272f)
                   val BTN_REPLACE = floatArrayOf(836f, 2272f)
                   val BTN_COMPLETE = floatArrayOf(595f, 2285f)
+                  // Точка внутри большой кнопки "Соверш." (в другом режиме тут пустой промежуток между кнопками)
                   val COMPLETE_CHECK = floatArrayOf(595f, 2235f)
-                  // Текст прироста общей мощности ("+3 360"): левый, верхний, правый, нижний
-                  val POWER_TEXT_BOX = floatArrayOf(645f, 1062f, 815f, 1132f)
-                  // Текст прироста параметра ("+0.21%") по X; Y берётся от выбранной строки
-                  const val STAT_X0 = 870f
-                  const val STAT_X1 = 1000f
+                  // Область с приростом общей мощности сверху ("+3 000" и стрелка): левый, верхний, правый, нижний
+                  val POWER_BOX = floatArrayOf(500f, 1060f, 960f, 1130f)
 
                   fun loadPrefs(ctx: Context) {
                       val sp = ctx.getSharedPreferences("wos", Context.MODE_PRIVATE)
                       row = sp.getInt("row", row).coerceIn(0, 5)
                       maxTries = sp.getInt("max", maxTries)
                       delayMs = sp.getLong("delay", delayMs)
-                      minPower = sp.getInt("minpower", minPower)
-                      checkStat = sp.getBoolean("checkstat", checkStat)
-                      maxDrop = sp.getFloat("maxdrop", maxDrop)
                   }
 
                   fun savePrefs(ctx: Context) {
@@ -392,15 +772,11 @@ jobs:
                           .putInt("row", row)
                           .putInt("max", maxTries)
                           .putLong("delay", delayMs)
-                          .putInt("minpower", minPower)
-                          .putBoolean("checkstat", checkStat)
-                          .putFloat("maxdrop", maxDrop)
                           .apply()
                   }
               }
 
               private val handler = Handler(Looper.getMainLooper())
-              private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
               private var running = false
               private var tries = 0
               private var btn: TextView? = null
@@ -445,7 +821,6 @@ jobs:
               private fun toggle() {
                   running = !running
                   if (running) {
-                      loadPrefs(this)
                       tries = 0
                       setLabel("■ STOP")
                       step()
@@ -547,8 +922,6 @@ jobs:
                   )
               }
 
-              // ---------- анализ пикселей ----------
-
               private fun isBrightBlue(bmp: Bitmap, refX: Float, refY: Float): Boolean {
                   val cx = (refX / REF_W * bmp.width).toInt()
                   val cy = (refY / REF_H * bmp.height).toInt()
@@ -565,7 +938,7 @@ jobs:
                   return total > 0 && hit * 100 / total >= 70
               }
 
-              private fun countColor(bmp: Bitmap, box: FloatArray, green: Boolean): Int {
+              private fun countGreen(bmp: Bitmap, box: FloatArray): Int {
                   val x0 = maxOf((box[0] / REF_W * bmp.width).toInt(), 0)
                   val y0 = maxOf((box[1] / REF_H * bmp.height).toInt(), 0)
                   val x1 = minOf((box[2] / REF_W * bmp.width).toInt(), bmp.width)
@@ -574,46 +947,11 @@ jobs:
                   for (x in x0 until x1) {
                       for (y in y0 until y1) {
                           val p = bmp.getPixel(x, y)
-                          val r = Color.red(p)
-                          val g = Color.green(p)
-                          val b = Color.blue(p)
-                          if (green) {
-                              if (g > 150 && r < 130 && b < 130) n++
-                          } else {
-                              if (r > 170 && g < 110 && b < 110) n++
-                          }
+                          if (Color.green(p) > 150 && Color.red(p) < 130 && Color.blue(p) < 130) n++
                       }
                   }
                   return n
               }
-
-              private fun cropScaled(bmp: Bitmap, box: FloatArray): Bitmap? {
-                  val x0 = maxOf((box[0] / REF_W * bmp.width).toInt(), 0)
-                  val y0 = maxOf((box[1] / REF_H * bmp.height).toInt(), 0)
-                  val x1 = minOf((box[2] / REF_W * bmp.width).toInt(), bmp.width)
-                  val y1 = minOf((box[3] / REF_H * bmp.height).toInt(), bmp.height)
-                  val cw = x1 - x0
-                  val ch = y1 - y0
-                  if (cw <= 0 || ch <= 0) return null
-                  val crop = Bitmap.createBitmap(bmp, x0, y0, cw, ch)
-                  val big = Bitmap.createScaledBitmap(crop, cw * 3, ch * 3, true)
-                  if (big !== crop) crop.recycle()
-                  return big
-              }
-
-              private fun readText(bm: Bitmap, cb: (String) -> Unit) {
-                  recognizer.process(InputImage.fromBitmap(bm, 0))
-                      .addOnSuccessListener { t ->
-                          bm.recycle()
-                          cb(t.text)
-                      }
-                      .addOnFailureListener {
-                          bm.recycle()
-                          cb("")
-                      }
-              }
-
-              // ---------- решение ----------
 
               private fun decide(bmp: Bitmap) {
                   val w = bmp.width
@@ -628,47 +966,36 @@ jobs:
                       return
                   }
 
-                  val useStat = checkStat
-                  val statBox = floatArrayOf(STAT_X0, ROW_Y[row] - 45f, STAT_X1, ROW_Y[row] + 5f)
-
-                  val pGreen = countColor(bmp, POWER_TEXT_BOX, true)
-                  val pRed = countColor(bmp, POWER_TEXT_BOX, false)
-                  val sGreen = if (useStat) countColor(bmp, statBox, true) else 0
-                  val sRed = if (useStat) countColor(bmp, statBox, false) else 0
-
-                  val powerImg = cropScaled(bmp, POWER_TEXT_BOX)
-                  val statImg = if (useStat) cropScaled(bmp, statBox) else null
-                  bmp.recycle()
-
-                  if (powerImg == null) {
-                      statImg?.recycle()
-                      finish(false, "■ ${tries + 1}  crop?", w, h)
-                      return
-                  }
-
-                  readText(powerImg) { pText ->
-                      val value = pText.filter { it.isDigit() }.toIntOrNull() ?: 0
-                      val gain = if (pRed > pGreen) -value else value
-
-                      if (!useStat || statImg == null) {
-                          val ok = gain >= minPower
-                          finish(ok, "■ ${tries + 1}  Δ$gain / $minPower", w, h)
-                      } else {
-                          readText(statImg) { sText ->
-                              val m = Regex("(\\d+)[.,](\\d+)").find(sText)
-                              val mag = m?.let { "${it.groupValues[1]}.${it.groupValues[2]}".toFloatOrNull() } ?: 0f
-                              val stat = if (sRed > sGreen) -mag else mag
-                              val ok = gain >= minPower && stat >= -maxDrop
-                              finish(ok, "■ ${tries + 1}  Δ$gain  S$stat", w, h)
-                          }
+                  val cx = (ARROW_X / REF_W * w).toInt()
+                  val cy = (ROW_Y[row] / REF_H * h).toInt()
+                  val half = (0.03f * w).toInt()
+                  var green = 0
+                  var red = 0
+                  val x0 = maxOf(cx - half, 0)
+                  val x1 = minOf(cx + half, w)
+                  val y0 = maxOf(cy - half, 0)
+                  val y1 = minOf(cy + half, h)
+                  for (x in x0 until x1) {
+                      for (y in y0 until y1) {
+                          val p = bmp.getPixel(x, y)
+                          val r = Color.red(p)
+                          val g = Color.green(p)
+                          val bl = Color.blue(p)
+                          if (g > 150 && r < 130 && bl < 130) green++
+                          else if (r > 170 && g < 110 && bl < 110) red++
                       }
                   }
-              }
+                  val powerGreen = countGreen(bmp, POWER_BOX)
+                  bmp.recycle()
 
-              private fun finish(replace: Boolean, label: String, w: Int, h: Int) {
-                  if (!running) return
+                  val scale = (w / REF_W) * (w / REF_W)
+                  val powerUp = powerGreen >= maxOf((60 * scale).toInt(), 15)
+                  val arrowGreen = green > 40 && green > red
+                  val noArrow = green < 25 && red < 25
+                  // Заменить: зелёная стрелка у параметра, либо стрелки нет, но общая мощность выросла
+                  val replace = arrowGreen || (noArrow && powerUp)
                   val target = if (replace) BTN_REPLACE else BTN_RETRY
-                  setLabel(label)
+                  setLabel("■ ${tries + 1}  G$green R$red P$powerGreen")
                   tap(target[0] / REF_W * w, target[1] / REF_H * h)
                   tries++
                   handler.postDelayed({ step() }, delayMs)
@@ -682,461 +1009,6 @@ jobs:
                   dispatchGesture(gesture, null, null)
               }
           }
-          EOF_9
-          mkdir -p $(dirname app/src/main/java/com/example/wosclicker/MainActivity.kt)
-          cat > app/src/main/java/com/example/wosclicker/MainActivity.kt <<'EOF_10'
-          package com.example.wosclicker
-
-          import android.content.ClipData
-          import android.content.ClipboardManager
-          import android.content.Context
-          import android.content.Intent
-          import android.graphics.Color
-          import android.graphics.Typeface
-          import android.graphics.drawable.GradientDrawable
-          import android.os.Bundle
-          import android.provider.Settings
-          import android.text.InputType
-          import android.view.Gravity
-          import android.view.View
-          import android.view.ViewGroup
-          import android.widget.EditText
-          import android.widget.LinearLayout
-          import android.widget.ScrollView
-          import android.widget.TextView
-          import android.widget.Toast
-          import androidx.appcompat.app.AppCompatActivity
-          import java.util.Locale
-
-          class MainActivity : AppCompatActivity() {
-
-              companion object {
-                  const val CARD = "4400430358159272"
-              }
-
-              private val cAccent = Color.parseColor("#5AB8FF")
-              private val cDark = Color.parseColor("#0A1628")
-              private val cMuted = Color.parseColor("#9FB7D6")
-              private val cGreen = Color.parseColor("#3DDC84")
-              private val cRed = Color.parseColor("#FF5C5C")
-
-              private var tab = 0
-              private var statusDot: View? = null
-              private var statusText: TextView? = null
-              private var enableBtn: TextView? = null
-              private var maxEdit: EditText? = null
-              private var delayEdit: EditText? = null
-              private var powerEdit: EditText? = null
-              private var dropEdit: EditText? = null
-              private val rowViews = ArrayList<TextView>()
-
-              // ---------- helpers ----------
-
-              private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
-
-              private fun rounded(fill: Int, radiusDp: Int, strokeColor: Int, strokeDp: Int): GradientDrawable {
-                  val d = GradientDrawable()
-                  d.shape = GradientDrawable.RECTANGLE
-                  d.cornerRadius = dp(radiusDp).toFloat()
-                  d.setColor(fill)
-                  if (strokeDp > 0) d.setStroke(dp(strokeDp), strokeColor)
-                  return d
-              }
-
-              private fun matchWrap(topDp: Int): LinearLayout.LayoutParams {
-                  val p = LinearLayout.LayoutParams(
-                      ViewGroup.LayoutParams.MATCH_PARENT,
-                      ViewGroup.LayoutParams.WRAP_CONTENT
-                  )
-                  p.topMargin = dp(topDp)
-                  return p
-              }
-
-              private fun text(t: String, size: Float, color: Int, bold: Boolean): TextView {
-                  val v = TextView(this)
-                  v.text = t
-                  v.textSize = size
-                  v.setTextColor(color)
-                  if (bold) v.setTypeface(null, Typeface.BOLD)
-                  return v
-              }
-
-              private fun card(): LinearLayout {
-                  val c = LinearLayout(this)
-                  c.orientation = LinearLayout.VERTICAL
-                  c.setPadding(dp(18), dp(16), dp(18), dp(18))
-                  c.background = rounded(Color.parseColor("#1AFFFFFF"), 20, Color.parseColor("#33FFFFFF"), 1)
-                  c.layoutParams = matchWrap(16)
-                  return c
-              }
-
-              private fun button(t: String, fill: Int, textColor: Int): TextView {
-                  val v = text(t, 16f, textColor, true)
-                  v.gravity = Gravity.CENTER
-                  v.setPadding(dp(16), dp(14), dp(16), dp(14))
-                  v.background = rounded(fill, 16, 0, 0)
-                  v.layoutParams = matchWrap(14)
-                  return v
-              }
-
-              private fun input(value: String, decimal: Boolean): EditText {
-                  val e = EditText(this)
-                  e.setText(value)
-                  e.setTextColor(Color.WHITE)
-                  e.textSize = 16f
-                  e.inputType = if (decimal) {
-                      InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-                  } else {
-                      InputType.TYPE_CLASS_NUMBER
-                  }
-                  e.setPadding(dp(14), dp(10), dp(14), dp(10))
-                  e.background = rounded(Color.parseColor("#33000000"), 12, Color.parseColor("#33FFFFFF"), 1)
-                  e.layoutParams = matchWrap(6)
-                  return e
-              }
-
-              private fun newRow(): TextView {
-                  val v = text("", 16f, Color.WHITE, false)
-                  v.setPadding(dp(14), dp(12), dp(14), dp(12))
-                  v.layoutParams = matchWrap(8)
-                  return v
-              }
-
-              private fun styleRow(v: TextView, label: String, selected: Boolean) {
-                  v.text = (if (selected) "●  " else "○  ") + label
-                  v.setTextColor(if (selected) cDark else Color.WHITE)
-                  v.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
-                  v.background = if (selected) {
-                      rounded(cAccent, 12, 0, 0)
-                  } else {
-                      rounded(Color.parseColor("#14FFFFFF"), 12, Color.parseColor("#26FFFFFF"), 1)
-                  }
-              }
-
-              // ---------- lifecycle ----------
-
-              override fun onCreate(savedInstanceState: Bundle?) {
-                  super.onCreate(savedInstanceState)
-                  ClickService.loadPrefs(this)
-                  val sp = getSharedPreferences("wos", Context.MODE_PRIVATE)
-                  val saved = sp.getString("lang", null)
-                  L.lang = if (saved != null && L.codes.contains(saved)) {
-                      saved
-                  } else {
-                      val sys = Locale.getDefault().language
-                      if (L.codes.contains(sys)) sys else "en"
-                  }
-                  window.statusBarColor = Color.parseColor("#0A1628")
-                  window.navigationBarColor = Color.parseColor("#0A1628")
-                  render()
-              }
-
-              override fun onResume() {
-                  super.onResume()
-                  refreshStatus()
-              }
-
-              override fun onPause() {
-                  super.onPause()
-                  saveSettings()
-              }
-
-              // ---------- screens ----------
-
-              private fun render() {
-                  saveSettings()
-                  rowViews.clear()
-                  statusDot = null
-                  statusText = null
-                  enableBtn = null
-                  maxEdit = null
-                  delayEdit = null
-                  powerEdit = null
-                  dropEdit = null
-
-                  val outer = LinearLayout(this)
-                  outer.orientation = LinearLayout.VERTICAL
-                  outer.background = GradientDrawable(
-                      GradientDrawable.Orientation.TOP_BOTTOM,
-                      intArrayOf(Color.parseColor("#0A1628"), Color.parseColor("#1B4B82"))
-                  )
-                  outer.layoutDirection = if (L.lang == "ar") View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
-
-                  val scroll = ScrollView(this)
-                  scroll.isFillViewport = true
-                  outer.addView(scroll, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
-
-                  val page = LinearLayout(this)
-                  page.orientation = LinearLayout.VERTICAL
-                  page.setPadding(dp(20), dp(48), dp(20), dp(24))
-                  scroll.addView(page)
-
-                  page.addView(text("❄  WOS Clicker", 30f, Color.WHITE, true))
-                  val sub = text(L.t("sub"), 14f, cMuted, false)
-                  sub.layoutParams = matchWrap(4)
-                  page.addView(sub)
-
-                  when (tab) {
-                      0 -> buildHome(page)
-                      1 -> buildSettings(page)
-                      else -> buildSupport(page)
-                  }
-
-                  outer.addView(buildTabBar())
-                  setContentView(outer)
-                  refreshStatus()
-              }
-
-              private fun buildTabBar(): LinearLayout {
-                  val bar = LinearLayout(this)
-                  bar.orientation = LinearLayout.HORIZONTAL
-                  bar.setBackgroundColor(Color.parseColor("#F00A1628"))
-                  bar.setPadding(dp(8), dp(6), dp(8), dp(10))
-                  val icons = listOf("🏠", "⚙️", "❤️")
-                  val labels = listOf(L.t("tab_home"), L.t("tab_settings"), L.t("tab_support"))
-                  for (i in 0 until 3) {
-                      val selected = i == tab
-                      val t = text(icons[i] + "\n" + labels[i], 12f, if (selected) cDark else cMuted, selected)
-                      t.gravity = Gravity.CENTER
-                      t.setPadding(dp(4), dp(8), dp(4), dp(8))
-                      t.background = if (selected) rounded(cAccent, 14, 0, 0) else rounded(Color.TRANSPARENT, 14, 0, 0)
-                      val lp = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-                      lp.setMargins(dp(4), 0, dp(4), 0)
-                      t.layoutParams = lp
-                      t.setOnClickListener {
-                          tab = i
-                          render()
-                      }
-                      bar.addView(t)
-                  }
-                  return bar
-              }
-
-              private fun buildHome(page: LinearLayout) {
-                  val statusCard = card()
-                  val statusRow = LinearLayout(this)
-                  statusRow.orientation = LinearLayout.HORIZONTAL
-                  statusRow.gravity = Gravity.CENTER_VERTICAL
-                  val dot = View(this)
-                  val dotLp = LinearLayout.LayoutParams(dp(12), dp(12))
-                  dotLp.marginEnd = dp(10)
-                  dot.layoutParams = dotLp
-                  val st = text("", 16f, Color.WHITE, true)
-                  statusRow.addView(dot)
-                  statusRow.addView(st)
-                  statusCard.addView(statusRow)
-                  val eb = button(L.t("enable"), cAccent, cDark)
-                  eb.setOnClickListener {
-                      startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-                  }
-                  statusCard.addView(eb)
-                  page.addView(statusCard)
-                  statusDot = dot
-                  statusText = st
-                  enableBtn = eb
-
-                  val paramCard = card()
-                  paramCard.addView(text(L.t("param_title"), 12f, cMuted, true))
-                  for (i in 0 until 6) {
-                      val row = newRow()
-                      row.setOnClickListener {
-                          ClickService.row = i
-                          ClickService.savePrefs(this)
-                          refreshRows()
-                      }
-                      rowViews.add(row)
-                      paramCard.addView(row)
-                  }
-                  page.addView(paramCard)
-                  refreshRows()
-
-                  val show = button(L.t("show"), cGreen, cDark)
-                  show.layoutParams = matchWrap(20)
-                  show.setOnClickListener {
-                      saveSettings()
-                      val svc = ClickService.instance
-                      if (svc == null) {
-                          Toast.makeText(this, L.t("need_service"), Toast.LENGTH_LONG).show()
-                      } else {
-                          svc.showOverlay()
-                          Toast.makeText(this, L.t("started"), Toast.LENGTH_LONG).show()
-                      }
-                  }
-                  page.addView(show)
-
-                  val hint = text(L.t("hint"), 13f, cMuted, false)
-                  hint.setLineSpacing(0f, 1.2f)
-                  hint.layoutParams = matchWrap(18)
-                  page.addView(hint)
-              }
-
-              private fun buildSettings(page: LinearLayout) {
-                  // Условия замены
-                  val rulesCard = card()
-                  rulesCard.addView(text(L.t("rules_title"), 12f, cMuted, true))
-
-                  val l1 = text(L.t("min_power"), 14f, Color.WHITE, false)
-                  l1.layoutParams = matchWrap(10)
-                  rulesCard.addView(l1)
-                  val pe = input(ClickService.minPower.toString(), false)
-                  rulesCard.addView(pe)
-                  powerEdit = pe
-
-                  val toggle = newRow()
-                  styleRow(toggle, L.t("check_stat"), ClickService.checkStat)
-                  toggle.layoutParams = matchWrap(14)
-                  toggle.setOnClickListener {
-                      saveSettings()
-                      ClickService.checkStat = !ClickService.checkStat
-                      ClickService.savePrefs(this)
-                      render()
-                  }
-                  rulesCard.addView(toggle)
-
-                  if (ClickService.checkStat) {
-                      val l2 = text(L.t("max_drop"), 14f, Color.WHITE, false)
-                      l2.layoutParams = matchWrap(12)
-                      rulesCard.addView(l2)
-                      val dr = input(ClickService.maxDrop.toString(), true)
-                      rulesCard.addView(dr)
-                      dropEdit = dr
-                  }
-                  page.addView(rulesCard)
-
-                  // Работа
-                  val setCard = card()
-                  setCard.addView(text(L.t("settings_title"), 12f, cMuted, true))
-                  val l3 = text(L.t("max_tries"), 14f, Color.WHITE, false)
-                  l3.layoutParams = matchWrap(10)
-                  setCard.addView(l3)
-                  val me = input(ClickService.maxTries.toString(), false)
-                  setCard.addView(me)
-                  val l4 = text(L.t("delay"), 14f, Color.WHITE, false)
-                  l4.layoutParams = matchWrap(12)
-                  setCard.addView(l4)
-                  val de = input(ClickService.delayMs.toString(), false)
-                  setCard.addView(de)
-                  page.addView(setCard)
-                  maxEdit = me
-                  delayEdit = de
-
-                  // Язык
-                  val langCard = card()
-                  langCard.addView(text(L.t("lang_title"), 12f, cMuted, true))
-                  for (i in L.codes.indices) {
-                      val row = newRow()
-                      styleRow(row, L.langNames[i], L.codes[i] == L.lang)
-                      row.setOnClickListener {
-                          L.lang = L.codes[i]
-                          getSharedPreferences("wos", Context.MODE_PRIVATE).edit().putString("lang", L.codes[i]).apply()
-                          render()
-                      }
-                      langCard.addView(row)
-                  }
-                  page.addView(langCard)
-              }
-
-              private fun buildSupport(page: LinearLayout) {
-                  val c = card()
-
-                  val heart = text("❤️", 40f, cRed, false)
-                  heart.gravity = Gravity.CENTER
-                  c.addView(heart)
-
-                  val title = text(L.t("support_title"), 22f, Color.WHITE, true)
-                  title.gravity = Gravity.CENTER
-                  title.layoutParams = matchWrap(6)
-                  c.addView(title)
-
-                  val body = text(L.t("support_text"), 14f, cMuted, false)
-                  body.gravity = Gravity.CENTER
-                  body.setLineSpacing(0f, 1.2f)
-                  body.layoutParams = matchWrap(10)
-                  c.addView(body)
-
-                  val bank = LinearLayout(this)
-                  bank.orientation = LinearLayout.VERTICAL
-                  bank.layoutDirection = View.LAYOUT_DIRECTION_LTR
-                  bank.setPadding(dp(22), dp(20), dp(22), dp(22))
-                  val bg = GradientDrawable(
-                      GradientDrawable.Orientation.TL_BR,
-                      intArrayOf(Color.parseColor("#2B7FFF"), Color.parseColor("#7A5CFF"))
-                  )
-                  bg.cornerRadius = dp(20).toFloat()
-                  bank.background = bg
-                  bank.layoutParams = matchWrap(18)
-
-                  val chip = View(this)
-                  chip.background = rounded(Color.parseColor("#E6C766"), 6, 0, 0)
-                  chip.layoutParams = LinearLayout.LayoutParams(dp(40), dp(28))
-                  bank.addView(chip)
-
-                  val label = text(L.t("card_label"), 11f, Color.parseColor("#CCFFFFFF"), true)
-                  label.layoutParams = matchWrap(18)
-                  bank.addView(label)
-
-                  val grouped = CARD.chunked(8).joinToString("\n") { it.chunked(4).joinToString(" ") }
-                  val num = text(grouped, 26f, Color.WHITE, true)
-                  num.setTypeface(Typeface.MONOSPACE, Typeface.BOLD)
-                  num.textDirection = View.TEXT_DIRECTION_LTR
-                  num.setLineSpacing(0f, 1.15f)
-                  num.setTextIsSelectable(true)
-                  num.layoutParams = matchWrap(4)
-                  bank.addView(num)
-                  c.addView(bank)
-
-                  val copy = button(L.t("copy"), cAccent, cDark)
-                  copy.setOnClickListener {
-                      val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                      cm.setPrimaryClip(ClipData.newPlainText("card", CARD))
-                      Toast.makeText(this, L.t("copied"), Toast.LENGTH_SHORT).show()
-                  }
-                  c.addView(copy)
-
-                  val thanks = text(L.t("thanks"), 14f, cGreen, true)
-                  thanks.gravity = Gravity.CENTER
-                  thanks.layoutParams = matchWrap(16)
-                  c.addView(thanks)
-
-                  page.addView(c)
-              }
-
-              // ---------- state ----------
-
-              private fun refreshRows() {
-                  for (i in rowViews.indices) {
-                      styleRow(rowViews[i], L.t("stat$i"), i == ClickService.row)
-                  }
-              }
-
-              private fun refreshStatus() {
-                  val dotView = statusDot ?: return
-                  val st = statusText ?: return
-                  val eb = enableBtn ?: return
-                  val on = ClickService.instance != null
-                  val d = GradientDrawable()
-                  d.shape = GradientDrawable.OVAL
-                  d.setColor(if (on) cGreen else cRed)
-                  dotView.background = d
-                  st.text = if (on) L.t("svc_on") else L.t("svc_off")
-                  eb.visibility = if (on) View.GONE else View.VISIBLE
-              }
-
-              private fun saveSettings() {
-                  val m = maxEdit
-                  val d = delayEdit
-                  val p = powerEdit
-                  val dr = dropEdit
-                  if (m == null || d == null || p == null) return
-                  ClickService.maxTries = (m.text.toString().toIntOrNull() ?: 300).coerceAtLeast(1)
-                  ClickService.delayMs = (d.text.toString().toLongOrNull() ?: 1300L).coerceAtLeast(300L)
-                  ClickService.minPower = p.text.toString().toIntOrNull() ?: 2000
-                  if (dr != null) {
-                      ClickService.maxDrop = (dr.text.toString().replace(',', '.').toFloatOrNull() ?: 0.05f).coerceAtLeast(0f)
-                  }
-                  ClickService.savePrefs(this)
-              }
-          }
           EOF_10
       - name: Build
         run: gradle assembleDebug --no-daemon --stacktrace
@@ -1144,4 +1016,3 @@ jobs:
         with:
           name: wos-clicker-apk
           path: app/build/outputs/apk/debug/app-debug.apk
-
